@@ -34,6 +34,7 @@ private:
     AppRecognizer *recognizer;
     SysEventsEmulator *emulator;
 
+    void mousePressEvent(QMouseEvent *);
 };
 
 #endif // SOLVER_HPP

@@ -12,7 +12,6 @@ public:
     virtual ~AppFactory() { }
 
 public:
-    // what's the difference between " = 0" and " = delete"?
     virtual AppActionExecutor *createExecutor() = 0;
     virtual AppInteractor *createInteractor() = 0;
     virtual AppRecognizer *createRecognizer() = 0;

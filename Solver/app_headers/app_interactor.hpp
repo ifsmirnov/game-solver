@@ -2,7 +2,7 @@
 #define APP_INTERACTOR_HPP
 
 #include "app_action.hpp"
-#include "app_state.hpp"
+#include "app_internalstate.hpp"
 
 class AppInteractor
 {
@@ -11,7 +11,7 @@ public:
     virtual ~AppInteractor() { }
 
 public:
-    virtual AppAction *nextAction(AppState*) = 0;
+    virtual AppAction *nextAction(AppInternalState* ) { return new AppAction; }
 
 };
 
