@@ -1,5 +1,9 @@
 #include "solver.hpp"
 
+#include <iostream>
+
+#include <app_headers/app_state.hpp>
+
 Solver::Solver(QWidget *parent) :
     QWidget(parent)
 {
@@ -31,13 +35,22 @@ QImage Solver::printScreen()
 
 void Solver::makeMove()
 {
-    AppState *state = 0;
-    AppExternalState *externalState = 0;
+    std::cerr << "Making move" << std::endl;
 
-    recognizer->recognize(printScreen(), state, externalState);
+    AppState *recognizerResult = recognizer->recognize(printScreen());
+    AppInternalState *internalState = recognizerResult->internalState();
+    AppExternalState *externalState = recognizerResult->externalState();
 
-    AppAction *action = interactor->nextAction(state);
+    AppAction *action = interactor->nextAction(internalState);
 
     if (action->hasAction())
-        executor->execute(state, externalState, action, emulator);
+    {
+        std::cerr << "executing..." << std::endl;
+        executor->execute(externalState, action, emulator);
+    }
+}
+
+void Solver::mousePressEvent(QMouseEvent *)
+{
+    makeMove();
 }

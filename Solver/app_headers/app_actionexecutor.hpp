@@ -3,8 +3,7 @@
 
 #include "app_action.hpp"
 #include "app_externalstate.hpp"
-#include "app_state.hpp"
-#include "../sys/emulator.hpp"
+#include "sys/emulator.hpp"
 
 class AppActionExecutor
 {
@@ -12,7 +11,7 @@ public:
     AppActionExecutor() { }
     virtual ~AppActionExecutor() { }
 
-    virtual void execute(const AppState *state, const AppExternalState *externalState,
+    virtual void execute(const AppExternalState *externalState,
                  const AppAction *action, SysEventsEmulator *emulator) = 0;
 };
 

@@ -1,10 +1,13 @@
 #ifndef APP_RECOGNIZER_HPP
 #define APP_RECOGNIZER_HPP
 
+#include "app_state.hpp"
+#include "app_internalstate.hpp"
+#include "app_externalstate.hpp"
+
 #include <QImage>
 
-#include "app_externalstate.hpp"
-#include "app_state.hpp"
+#include <utility>
 
 class AppRecognizer
 {
@@ -13,7 +16,10 @@ public:
     virtual ~AppRecognizer() { }
 
 public:
-    virtual void recognize(QImage image, AppState *state, AppExternalState *externalState) = 0;
+    virtual AppState *recognize(QImage)
+    {
+        return new AppState(new AppInternalState, new AppExternalState);
+    }
 };
 
 #endif // APP_RECOGNIZER_HPP

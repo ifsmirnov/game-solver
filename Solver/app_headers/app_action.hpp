@@ -8,7 +8,7 @@ public:
     virtual ~AppAction() { }
 
 public:
-    virtual bool hasAction() = 0;
+    virtual bool hasAction() { return false; }
 };
 
 #endif // APP_ACTION_HPP
