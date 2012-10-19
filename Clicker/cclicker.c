@@ -3,12 +3,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <xdo.h>
+#include "cclicker.h"
 
 xdo_t* xdo;
 Window gameWindow;
 Display* dpy;
 
-void click(int x, int y)
+void c_click(int x, int y)
 {
     xdo_window_activate(xdo, gameWindow);
     //XFlush(dpy);
@@ -17,7 +18,7 @@ void click(int x, int y)
     //XFlush(dpy);
 }
 
-void initClicker()
+void c_initClicker()
 {
     dpy = XOpenDisplay(NULL);
     xdo = xdo_new_with_opened_display(dpy, NULL, 0);
@@ -25,13 +26,13 @@ void initClicker()
 }
 
 
-void deInitClicker()
+void c_deInitClicker()
 {
     XCloseDisplay(dpy);
     free(xdo);
 }
 
-
+/*
 int main()
 {
     initClicker();
@@ -44,3 +45,4 @@ int main()
         click(i, j);
     }
 }
+*/

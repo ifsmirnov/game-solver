@@ -1,17 +1,16 @@
 #include "clicker.hpp"
-
 #include <iostream>
 
-int main()
-{
+int main() {
     Clicker clicker;
-
     int x, y;
-    while (std::cin >> x >> y)
-    {
-        std::cerr << "try to click on " << x << " " << y << std::endl;
+    clicker.initClicker();
+    while (1) {
+        std::cin >> x >> y;
+        if (x == -1  &&  y == -1) {
+            break;
+        }
         clicker.click(x, y);
     }
-
-    return 0;
+    clicker.deInitClicker();
 }
