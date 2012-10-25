@@ -7,10 +7,16 @@ HEADERS += \
     app_headers/app_actionexecutor.hpp \
     sys/emulator.hpp \
     app_headers/app_factory.hpp \
-    app_headers/app_recognizer.hpp
+    app_headers/app_recognizer.hpp \
+    sys/clicker.hpp \
+    sys/cclicker.h \
+    sys/x_clickemulator.h
 
 SOURCES += \
     solver.cpp \
-    main.cpp
+    main.cpp \
+    sys/clicker.cpp \
+    sys/cclicker.c \
+    sys/x_clickemulator.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
