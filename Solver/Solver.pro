@@ -12,6 +12,9 @@ HEADERS += \
     TriggerImpl/triggerfactory.hpp \
     app_headers/app_internalstate.hpp \
     app_headers/app_state.hpp
+    sys/clicker.hpp \
+    sys/cclicker.h \
+    sys/x_clickemulator.h
 
 SOURCES += \
     solver.cpp \
@@ -19,5 +22,8 @@ SOURCES += \
     sys/stupidemulator.cpp \
     TriggerImpl/triggeractioneexecutor.cpp \
     TriggerImpl/triggerfactory.cpp
+    sys/clicker.cpp \
+    sys/cclicker.c \
+    sys/x_clickemulator.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
