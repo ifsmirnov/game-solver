@@ -11,13 +11,17 @@ HEADERS += \
     TriggerImpl/triggeractioneexecutor.hpp \
     TriggerImpl/triggerfactory.hpp \
     app_headers/app_internalstate.hpp \
-    app_headers/app_state.hpp
+    app_headers/app_state.hpp \
+    renderarea.hpp \
+    TriggerImpl/triggerrecognizer.hpp
 
 SOURCES += \
     solver.cpp \
     main.cpp \
     sys/stupidemulator.cpp \
     TriggerImpl/triggeractioneexecutor.cpp \
-    TriggerImpl/triggerfactory.cpp
+    TriggerImpl/triggerfactory.cpp \
+    renderarea.cpp \
+    TriggerImpl/triggerrecognizer.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
