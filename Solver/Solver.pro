@@ -27,5 +27,4 @@ SOURCES += \
     sys/x_clickemulator.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
-QMAKE_CFLAGS += -lxdo
-LFLAGS += -lxdo
+QMAKE_LIBS += -lxdo -lX11

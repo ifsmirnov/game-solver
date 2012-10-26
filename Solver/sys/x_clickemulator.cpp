@@ -1,29 +1,28 @@
 #include "x_clickemulator.h"
 
-XClickEmulator XClickEmulator::XClickEmulator()
+XClickEmulator::XClickEmulator()
 {
     instance_ = 0;
 }
 
-XClickEmulator* XClickEmulator::Instance()
+SysEventsEmulator* XClickEmulator::Instance()
 {
     if(instance_ == 0)
     {
         clicker_ = new Clicker;
-        clicker_.
-        instance_ = this;
+        //clicker_->instance_ = this;
     }
-    return clicker;
+    return instance_;
 }
 
 XClickEmulator::~XClickEmulator()
 {
     clicker_->deInitClicker();
-    free(clicker);
+    delete clicker_;
 }
 
 void XClickEmulator::mouseClick(int x, int y)
 {
-    clicker->click(x, y);
+    clicker_->click(x, y);
 }
 
