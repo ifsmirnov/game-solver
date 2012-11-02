@@ -15,6 +15,8 @@ HEADERS += \
     sys/clicker.hpp \
     sys/cclicker.h \
     sys/x_clickemulator.h
+    renderarea.hpp \
+    TriggerImpl/triggerrecognizer.hpp
 
 SOURCES += \
     solver.cpp \
@@ -25,6 +27,8 @@ SOURCES += \
     sys/clicker.cpp \
     sys/cclicker.c \
     sys/x_clickemulator.cpp
+    renderarea.cpp \
+    TriggerImpl/triggerrecognizer.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11
