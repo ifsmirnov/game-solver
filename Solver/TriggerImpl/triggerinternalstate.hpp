@@ -12,10 +12,15 @@ public:
 
     int getField(int x, int y) const;
 
+    int getHeight() const;
+
+    int getWidth() const;
+
     ~TriggerInternalState();
 
 private:
     std::vector< std::vector<int> > field_;
+    int height_, width_;
 };
 
 #endif // TRIGGERINTERNALSTATE_HPP
