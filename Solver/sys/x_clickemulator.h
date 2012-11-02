@@ -2,20 +2,22 @@
 #define X_CLICKEMULATOR_H
 #include "sys/emulator.hpp"
 #include "sys/clicker.hpp"
+#include <QPoint>
 
 class XClickEmulator : public SysEventsEmulator
 {
-public:
-    ~XClickEmulator();
-    void mouseClick(int x, int y);
-    SysEventsEmulator* Instance();
-
-protected:
+private:
+    static bool instance_flag_;
+    static XClickEmulator *instance_;
+    Clicker *clicker_;
     XClickEmulator();
 
-private:
-    XClickEmulator* instance_;
-    Clicker *clicker_;
+public:
+    static XClickEmulator* getInstance();
+
+    void mouseClick(int x, int y);
+
+    ~XClickEmulator();
 };
 
 #endif // X_CLICKEMULATOR_H

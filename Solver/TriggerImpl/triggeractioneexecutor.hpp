@@ -2,6 +2,8 @@
 #define TRIGGERACTIONEEXECUTOR_HPP
 
 #include "app_headers/app_actionexecutor.hpp"
+#include "triggerexternalstate.hpp"
+#include "triggeraction.hpp"
 
 class TriggerActioneExecutor : public AppActionExecutor
 {

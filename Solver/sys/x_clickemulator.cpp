@@ -1,24 +1,22 @@
 #include "x_clickemulator.h"
 
+bool XClickEmulator::instance_flag_ = false;
+
+XClickEmulator* XClickEmulator::instance_ = NULL;
+
 XClickEmulator::XClickEmulator()
 {
-    instance_ = 0;
+    clicker_ = new Clicker();
 }
 
-SysEventsEmulator* XClickEmulator::Instance()
+XClickEmulator* XClickEmulator::getInstance()
 {
-    if(instance_ == 0)
+    if(!instance_flag_)
     {
-        clicker_ = new Clicker;
-        //clicker_->instance_ = this;
+        instance_ = new XClickEmulator();
+        instance_flag_ = true;
     }
     return instance_;
-}
-
-XClickEmulator::~XClickEmulator()
-{
-    clicker_->deInitClicker();
-    delete clicker_;
 }
 
 void XClickEmulator::mouseClick(int x, int y)
@@ -26,3 +24,8 @@ void XClickEmulator::mouseClick(int x, int y)
     clicker_->click(x, y);
 }
 
+XClickEmulator::~XClickEmulator()
+{
+    delete clicker_;
+    instance_flag_ = false;
+}
