@@ -24,6 +24,9 @@ private:
                        std::set<QPoint>&,
                        QRgb);
     QPoint meanPoint(const std::set<QPoint>&);
+    std::vector<std::vector<std::pair<QRgb, QPoint> > > cluster(std::vector<std::pair<QRgb, QPoint> >);
+
+    static bool clusterCmp(const std::pair<QRgb, QPoint> &lhs, const std::pair<QRgb, QPoint> &rhs);
 
 private:
     QImage image;

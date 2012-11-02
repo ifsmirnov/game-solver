@@ -1,4 +1,6 @@
 #include "triggerrecognizer.hpp"
+#include "triggerexternalstate.hpp"
+#include "triggerinternalstate.hpp"
 
 #include "renderarea.hpp"
 
@@ -6,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 const QPoint TriggerRecognizer::directions[] = {QPoint(1, 0),
                                                 QPoint(0, 1),
@@ -34,6 +37,8 @@ std::vector<std::vector<QRgb> > TriggerRecognizer::getPixmap() // QPixmap?
 
 void TriggerRecognizer::displayImage() const
 {
+    // debug method. should be not used in production!
+
     std::cerr << "displayImage" << std::endl;
 
     QWidget *activeWindow = QApplication::activeWindow();
@@ -52,7 +57,7 @@ void TriggerRecognizer::displayImage() const
     std::cerr << "Recognizer: created new RenderArea and displayed it" << std::endl;
 }
 
-bool operator< (const QPoint& a, const QPoint &b)
+bool operator< (const QPoint& a, const QPoint &b) // replace by local comparator
 {
     return a.x() < b.x() || (a.x() == b.x() && a.y() < b.y());
 }
@@ -84,6 +89,30 @@ QPoint TriggerRecognizer::meanPoint(const std::set<QPoint> &points)
     return QPoint(sum.x(), sum.y());
 }
 
+bool TriggerRecognizer::clusterCmp(const std::pair<QRgb, QPoint> &lhs, const std::pair<QRgb, QPoint> &rhs)
+{
+    if (std::abs(lhs.second.x() - rhs.second.x()) <= 5)
+        return lhs.second.y() < rhs.second.y();
+    return lhs.second.x() < rhs.second.x();
+}
+
+std::vector<std::vector<std::pair<QRgb, QPoint> > >
+TriggerRecognizer::cluster(std::vector<std::pair<QRgb, QPoint> > cells)
+{
+    std::sort(cells.begin(), cells.end(), clusterCmp);
+    QPoint last(-100, -100); // magic numbers :(
+    std::vector<std::vector<std::pair<QRgb, QPoint> > > res;
+    for (int i = 0; i < (int)cells.size(); i++)
+    {
+        std::cerr << cells[i].second.x() << " " << cells[i].second.y() << std::endl;
+        if (cells[i].second.x() - last.x() > 5)
+            res.push_back(std::vector<std::pair<QRgb, QPoint> > (0));
+        res.back().push_back(cells[i]);
+        last = cells[i].second;
+    }
+    return res;
+}
+
 AppState* TriggerRecognizer::recognize(QImage image_)
 {
     image = image_;
@@ -109,15 +138,28 @@ AppState* TriggerRecognizer::recognize(QImage image_)
 
     std::cerr << "game consists of " << cells.size() << " cells" << std::endl;
 
-    QCursor cursor;
-
-    for (auto i: cells)
+    auto preField = cluster(cells);
+    int width, height;
+    if (preField.empty())
+        width = height = 0;
+    else
     {
-        std::cerr << (i.first == blue ? "Blue" : "Red") << std::endl << std::flush;
-        cursor.setPos(i.second);
-        cursor.pos();
-        sleep(1);
+        width = preField[0].size();
+        height = preField.size();
     }
 
-    return new AppState(new AppInternalState, new AppExternalState);
+    TriggerInternalState* internalState = new TriggerInternalState(height, width);
+    TriggerExternalState* externalState = new TriggerExternalState(height, width);
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            internalState->setField(i, j, preField[i][j].first == red);
+            QPoint point = preField[i][j].second;
+            externalState->setCoordinate(i, j, point.x(), point.y());
+        }
+    }
+
+    return new AppState(internalState, externalState);
 }
