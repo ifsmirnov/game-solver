@@ -10,13 +10,10 @@ private:
     static bool instance_flag_;
     static XClickEmulator *instance_;
     Clicker *clicker_;
-    XClickEmulator()
-    {
-        clicker_ = new Clicker();
-    }
+    XClickEmulator();
 
 public:
-    static XClickEmulator* get_instance();
+    static XClickEmulator* getInstance();
 
     void mouseClick(int x, int y);
 

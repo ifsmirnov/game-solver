@@ -4,7 +4,12 @@ bool XClickEmulator::instance_flag_ = false;
 
 XClickEmulator* XClickEmulator::instance_ = NULL;
 
-XClickEmulator* XClickEmulator::get_instance()
+XClickEmulator::XClickEmulator()
+{
+    clicker_ = new Clicker();
+}
+
+XClickEmulator* XClickEmulator::getInstance()
 {
     if(!instance_flag_)
     {
@@ -21,6 +26,6 @@ void XClickEmulator::mouseClick(int x, int y)
 
 XClickEmulator::~XClickEmulator()
 {
-    free(clicker_);
+    delete clicker_;
     instance_flag_ = false;
 }

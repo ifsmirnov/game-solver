@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    Solver solver(new TriggerFactory, XClickEmulator::get_instance());
+    Solver solver(new TriggerFactory, XClickEmulator::getInstance());
     solver.show();
 
     return app.exec();
