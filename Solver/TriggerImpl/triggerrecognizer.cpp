@@ -104,7 +104,7 @@ TriggerRecognizer::cluster(std::vector<std::pair<QRgb, QPoint> > cells)
     std::vector<std::vector<std::pair<QRgb, QPoint> > > res;
     for (int i = 0; i < (int)cells.size(); i++)
     {
-        std::cerr << cells[i].second.x() << " " << cells[i].second.y() << std::endl;
+        //std::cerr << cells[i].second.x() << " " << cells[i].second.y() << std::endl;
         if (cells[i].second.x() - last.x() > 5)
             res.push_back(std::vector<std::pair<QRgb, QPoint> > (0));
         res.back().push_back(cells[i]);
@@ -136,7 +136,7 @@ AppState* TriggerRecognizer::recognize(QImage image_)
             }
         }
 
-    std::cerr << "game consists of " << cells.size() << " cells" << std::endl;
+    //std::cerr << "game consists of " << cells.size() << " cells" << std::endl;
 
     auto preField = cluster(cells);
     int width, height;

@@ -34,6 +34,7 @@ AppAction* TriggerInteractor::nextAction(AppInternalState *internalState_)
             currCoord++;
         }
         ans->setTurn(i, QPoint(currCoord / height, currCoord % height));
+        currCoord++;
     }
     return ans;
 }
