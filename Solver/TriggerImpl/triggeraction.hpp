@@ -4,7 +4,7 @@
 #include <vector>
 #include <QPoint>
 
-class TriggerAction
+class TriggerAction: public AppAction
 {
 public:
     TriggerAction();
