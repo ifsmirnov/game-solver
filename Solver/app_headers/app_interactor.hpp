@@ -11,7 +11,7 @@ public:
     virtual ~AppInteractor() { }
 
 public:
-    virtual AppAction *nextAction(AppInternalState* ) { return new AppAction; }
+    virtual std::unique_ptr<AppAction> nextAction(AppInternalState* ) { return std::unique_ptr<AppAction>(new AppAction); }
 
 };
 

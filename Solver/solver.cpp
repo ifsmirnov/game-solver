@@ -18,7 +18,7 @@ Solver::Solver(AppFactory *factory_, SysEventsEmulator *emulator_, QWidget *pare
     QWidget(parent)
 {
     createLayout();
-    emulator = emulator_;
+    emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
     setApp(factory_);
 }
 
@@ -39,7 +39,7 @@ void Solver::setApp(AppFactory *factory)
 
 void Solver::setSysEventsEmulator(SysEventsEmulator *emulator_)
 {
-    emulator = emulator_;
+    emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
 }
 
 QImage Solver::printScreen()
@@ -51,16 +51,16 @@ void Solver::makeMove()
 {
     std::cerr << "Making move" << std::endl;
 
-    AppState *recognizerResult = recognizer->recognize(printScreen());
+    std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen());
     AppInternalState *internalState = recognizerResult->internalState();
     AppExternalState *externalState = recognizerResult->externalState();
 
-    AppAction *action = interactor->nextAction(internalState);
+    std::unique_ptr<AppAction> action = interactor->nextAction(internalState);
 
     if (action->hasAction())
     {
         std::cerr << "executing..." << std::endl;
-        executor->execute(externalState, action, emulator);
+        executor->execute(externalState, action.get(), emulator.get());
     }
 }
 

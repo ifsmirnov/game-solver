@@ -9,9 +9,9 @@ public:
     TriggerFactory();
 
 public:
-    AppActionExecutor *createExecutor();
-    AppInteractor *createInteractor();
-    AppRecognizer *createRecognizer();
+    std::unique_ptr<AppActionExecutor> createExecutor();
+    std::unique_ptr<AppInteractor> createInteractor();
+    std::unique_ptr<AppRecognizer> createRecognizer();
 };
 
 #endif // TRIGGERFACTORY_HPP

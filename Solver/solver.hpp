@@ -34,10 +34,10 @@ private:
 
 private:
     // TODO - change to std::unique_ptr; now memory leaks are possible
-    AppActionExecutor *executor;
-    AppInteractor *interactor;
-    AppRecognizer *recognizer;
-    SysEventsEmulator *emulator;
+    std::unique_ptr<AppActionExecutor> executor;
+    std::unique_ptr<AppInteractor> interactor;
+    std::unique_ptr<AppRecognizer> recognizer;
+    std::unique_ptr<SysEventsEmulator> emulator;
 
     RenderArea *renderArea;
 

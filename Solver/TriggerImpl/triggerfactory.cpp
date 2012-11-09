@@ -8,17 +8,17 @@ TriggerFactory::TriggerFactory()
 {
 }
 
-AppActionExecutor *TriggerFactory::createExecutor()
+std::unique_ptr<AppActionExecutor> TriggerFactory::createExecutor()
 {
-    return new TriggerActioneExecutor;
+    return std::unique_ptr<AppActionExecutor>(new TriggerActioneExecutor);
 }
 
-AppInteractor *TriggerFactory::createInteractor()
+std::unique_ptr<AppInteractor> TriggerFactory::createInteractor()
 {
-    return new TriggerInteractor;
+    return std::unique_ptr<AppInteractor>(new TriggerInteractor);
 }
 
-AppRecognizer *TriggerFactory::createRecognizer()
+std::unique_ptr<AppRecognizer> TriggerFactory::createRecognizer()
 {
-    return new TriggerRecognizer;
+    return std::unique_ptr<AppRecognizer>(new TriggerRecognizer);
 }

@@ -4,9 +4,9 @@ TriggerInteractor::TriggerInteractor()
 {
 }
 
-AppAction* TriggerInteractor::nextAction(AppInternalState *internalState_)
+std::unique_ptr<AppAction> TriggerInteractor::nextAction(AppInternalState *internalState_)
 {
-    TriggerAction* ans = new TriggerAction();
+    TriggerAction *ans = new TriggerAction();
     TriggerInternalState* internalState = dynamic_cast<TriggerInternalState*>(internalState_);
     int height = internalState->getHeight();
     int fieldsNum = height * internalState->getWidth();
@@ -36,5 +36,5 @@ AppAction* TriggerInteractor::nextAction(AppInternalState *internalState_)
         ans->setTurn(i, QPoint(currCoord / height, currCoord % height));
         currCoord++;
     }
-    return ans;
+    return std::unique_ptr<AppAction>(ans);
 }

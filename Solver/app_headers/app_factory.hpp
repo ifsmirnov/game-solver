@@ -12,9 +12,9 @@ public:
     virtual ~AppFactory() { }
 
 public:
-    virtual AppActionExecutor *createExecutor() = 0;
-    virtual AppInteractor *createInteractor() = 0;
-    virtual AppRecognizer *createRecognizer() = 0;
+    virtual std::unique_ptr<AppActionExecutor> createExecutor() = 0;
+    virtual std::unique_ptr<AppInteractor> createInteractor() = 0;
+    virtual std::unique_ptr<AppRecognizer> createRecognizer() = 0;
 
 };
 

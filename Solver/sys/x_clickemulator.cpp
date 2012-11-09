@@ -2,21 +2,21 @@
 
 bool XClickEmulator::instance_flag_ = false;
 
-XClickEmulator* XClickEmulator::instance_ = NULL;
+std::unique_ptr<XClickEmulator> XClickEmulator::instance_ = NULL;
 
 XClickEmulator::XClickEmulator()
 {
-    clicker_ = new Clicker();
+    clicker_ = std::unique_ptr<Clicker>(new Clicker());
 }
 
 XClickEmulator* XClickEmulator::getInstance()
 {
     if(!instance_flag_)
     {
-        instance_ = new XClickEmulator();
+        instance_ = std::unique_ptr<XClickEmulator>(new XClickEmulator());
         instance_flag_ = true;
     }
-    return instance_;
+    return instance_.get();
 }
 
 void XClickEmulator::mouseClick(int x, int y)
@@ -26,6 +26,5 @@ void XClickEmulator::mouseClick(int x, int y)
 
 XClickEmulator::~XClickEmulator()
 {
-    delete clicker_;
     instance_flag_ = false;
 }

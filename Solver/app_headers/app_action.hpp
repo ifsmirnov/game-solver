@@ -1,5 +1,6 @@
 #ifndef APP_ACTION_HPP
 #define APP_ACTION_HPP
+#include <memory>
 
 class AppAction
 {

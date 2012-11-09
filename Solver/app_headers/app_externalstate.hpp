@@ -1,5 +1,6 @@
 #ifndef APP_EXTERNALSTATE_HPP
 #define APP_EXTERNALSTATE_HPP
+#include <memory>
 
 class AppExternalState
 {

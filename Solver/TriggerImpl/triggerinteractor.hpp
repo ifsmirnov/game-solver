@@ -9,7 +9,7 @@ class TriggerInteractor : public AppInteractor
 public:
     TriggerInteractor();
 
-    AppAction* nextAction(AppInternalState *internalState_);
+    std::unique_ptr<AppAction> nextAction(AppInternalState *internalState_);
 
 };
 
