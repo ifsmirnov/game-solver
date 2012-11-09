@@ -1,6 +1,8 @@
 #include "triggeractioneexecutor.hpp"
 #include "sys/emulator.hpp"
 
+#include <unistd.h>
+
 TriggerActioneExecutor::TriggerActioneExecutor()
 {
 }
@@ -18,6 +20,7 @@ void TriggerActioneExecutor::execute(const AppExternalState *extState_,
         {
             mouseTarget = extState->getCoordinate(turns[i].x(), turns[i].y());
             emulator->mouseClick(mouseTarget.x(), mouseTarget.y());
+            usleep(100 * 1000);
         }
     }
     else

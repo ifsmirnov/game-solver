@@ -7,8 +7,8 @@
 class AppState
 {
 public:
-    AppState(AppInternalState*, AppExternalState*) :
-        internalState_(internalState_), externalState_(externalState_)
+    AppState(AppInternalState* internalState, AppExternalState* externalState) :
+        internalState_(internalState), externalState_(externalState)
         { }
     virtual ~AppState() { }
 

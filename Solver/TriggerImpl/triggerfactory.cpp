@@ -1,6 +1,8 @@
 #include "triggerfactory.hpp"
 
 #include "triggeractioneexecutor.hpp"
+#include "triggerrecognizer.hpp"
+#include "triggerinteractor.hpp"
 
 TriggerFactory::TriggerFactory()
 {
@@ -13,10 +15,10 @@ AppActionExecutor *TriggerFactory::createExecutor()
 
 AppInteractor *TriggerFactory::createInteractor()
 {
-    return new AppInteractor;
+    return new TriggerInteractor;
 }
 
 AppRecognizer *TriggerFactory::createRecognizer()
 {
-    return new AppRecognizer;
+    return new TriggerRecognizer;
 }

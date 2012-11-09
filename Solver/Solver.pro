@@ -14,10 +14,13 @@ HEADERS += \
     app_headers/app_state.hpp \
     sys/clicker.hpp \
     sys/cclicker.h \
+    renderarea.hpp \
+    TriggerImpl/triggerrecognizer.hpp \
     sys/x_clickemulator.h \
     TriggerImpl/triggerinternalstate.hpp \
     TriggerImpl/triggerexternalstate.hpp \
-    TriggerImpl/triggeraction.hpp
+    TriggerImpl/triggeraction.hpp \
+    TriggerImpl/triggerinteractor.hpp
 
 SOURCES += \
     solver.cpp \
@@ -27,10 +30,13 @@ SOURCES += \
     TriggerImpl/triggerfactory.cpp \
     sys/clicker.cpp \
     sys/cclicker.c \
+    renderarea.cpp \
+    TriggerImpl/triggerrecognizer.cpp \
     sys/x_clickemulator.cpp \
     TriggerImpl/triggerinternalstate.cpp \
     TriggerImpl/triggerexternalstate.cpp \
-    TriggerImpl/triggeraction.cpp
+    TriggerImpl/triggeraction.cpp \
+    TriggerImpl/triggerinteractor.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11
