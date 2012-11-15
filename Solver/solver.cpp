@@ -1,11 +1,6 @@
 #include "solver.hpp"
 
-#include <QtGui>
-#include <QGridLayout>
 
-#include <iostream>
-
-#include <app_headers/app_state.hpp>
 
 Solver::Solver(QWidget *parent) :
     QWidget(parent)
@@ -18,16 +13,16 @@ Solver::Solver(AppFactory *factory_, SysEventsEmulator *emulator_, QWidget *pare
     QWidget(parent)
 {
     createLayout();
-    emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
+    emulator = emulator_;
     setApp(factory_);
 }
 
 void Solver::createLayout()
 {
-    QGridLayout *layout = new QGridLayout;
-    renderArea = new RenderArea;
-    layout->addWidget(renderArea);
-    setLayout(layout);
+    layout = std::unique_ptr<QGridLayout>(new QGridLayout);
+    renderArea = std::unique_ptr<RenderArea>(new RenderArea);
+    layout->addWidget(renderArea.get());
+    setLayout(layout.get());
 }
 
 void Solver::setApp(AppFactory *factory)
@@ -39,7 +34,7 @@ void Solver::setApp(AppFactory *factory)
 
 void Solver::setSysEventsEmulator(SysEventsEmulator *emulator_)
 {
-    emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
+    emulator = emulator_;
 }
 
 QImage Solver::printScreen()
@@ -60,11 +55,11 @@ void Solver::makeMove()
     if (action->hasAction())
     {
         std::cerr << "executing..." << std::endl;
-        executor->execute(externalState, action.get(), emulator.get());
+        executor->execute(externalState, action.get(), emulator);
     }
 }
 
-void Solver::mousePressEvent(QMouseEvent *)
+void Solver::mousePressEvent(QMouseEvent *event)
 {
     makeMove();
     /*
@@ -74,6 +69,7 @@ void Solver::mousePressEvent(QMouseEvent *)
     update();
     std::cerr << "image set" << std::endl;
     */
+    delete(event);
 }
 
 void Solver::closeEvent(QCloseEvent *event)
@@ -81,4 +77,6 @@ void Solver::closeEvent(QCloseEvent *event)
     std::cerr << "close event called" << std::endl;
     emit closed();
     event->accept();
+    delete(event);
+
 }

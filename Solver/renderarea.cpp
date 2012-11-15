@@ -7,9 +7,10 @@
 RenderArea::RenderArea(QWidget *parent) :
     QWidget(parent)
 {
+    delete(parent);
 }
 
-void RenderArea::paintEvent(QPaintEvent *)
+void RenderArea::paintEvent(QPaintEvent *event)
 {
     if (!image.isNull())
     {

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QImage>
+#include <memory>
 
 class RenderArea : public QWidget
 {

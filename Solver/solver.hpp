@@ -10,6 +10,12 @@
 #include "app_headers/app_recognizer.hpp"
 #include "sys/emulator.hpp"
 #include "renderarea.hpp"
+#include <QtGui>
+#include <QGridLayout>
+
+#include <iostream>
+
+#include <app_headers/app_state.hpp>
 
 class Solver : public QWidget
 {
@@ -37,9 +43,9 @@ private:
     std::unique_ptr<AppActionExecutor> executor;
     std::unique_ptr<AppInteractor> interactor;
     std::unique_ptr<AppRecognizer> recognizer;
-    std::unique_ptr<SysEventsEmulator> emulator;
-
-    RenderArea *renderArea;
+    SysEventsEmulator *emulator;
+    std::unique_ptr<RenderArea> renderArea;
+    std::unique_ptr<QGridLayout> layout;
 
     void mousePressEvent(QMouseEvent *);
     void closeEvent(QCloseEvent *);
