@@ -20,7 +20,8 @@ HEADERS += \
     TriggerImpl/triggerinternalstate.hpp \
     TriggerImpl/triggerexternalstate.hpp \
     TriggerImpl/triggeraction.hpp \
-    TriggerImpl/triggerinteractor.hpp
+    TriggerImpl/triggerinteractor.hpp \
+    MineImpl/minerecognizer.hpp
 
 SOURCES += \
     solver.cpp \
@@ -36,7 +37,8 @@ SOURCES += \
     TriggerImpl/triggerinternalstate.cpp \
     TriggerImpl/triggerexternalstate.cpp \
     TriggerImpl/triggeraction.cpp \
-    TriggerImpl/triggerinteractor.cpp
+    TriggerImpl/triggerinteractor.cpp \
+    MineImpl/minerecognizer.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11
