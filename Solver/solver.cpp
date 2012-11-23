@@ -18,28 +18,32 @@ Solver::Solver(AppFactory *factory_, SysEventsEmulator *emulator_, QWidget *pare
     QWidget(parent)
 {
     createLayout();
-    emulator = emulator_;
+    emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
     setApp(factory_);
 }
 
 void Solver::createLayout()
 {
     QGridLayout *layout = new QGridLayout;
-    renderArea = new RenderArea;
-    layout->addWidget(renderArea);
+    renderArea = std::unique_ptr<RenderArea>(new RenderArea);
+    layout->addWidget(renderArea.get());
+    if(QWidget::layout() != 0)
+    {
+        delete(QWidget::layout());
+    }
     setLayout(layout);
 }
 
 void Solver::setApp(AppFactory *factory)
 {
-    executor = factory->createExecutor();
-    interactor = factory->createInteractor();
-    recognizer = factory->createRecognizer();
+    executor = std::unique_ptr<AppActionExecutor>(factory->createExecutor());
+    interactor = std::unique_ptr<AppInteractor>(factory->createInteractor());
+    recognizer = std::unique_ptr<AppRecognizer>(factory->createRecognizer());
 }
 
 void Solver::setSysEventsEmulator(SysEventsEmulator *emulator_)
 {
-    emulator = emulator_;
+    emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
 }
 
 QImage Solver::printScreen()
@@ -51,16 +55,16 @@ void Solver::makeMove()
 {
     std::cerr << "Making move" << std::endl;
 
-    AppState *recognizerResult = recognizer->recognize(printScreen());
+    std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen());
     AppInternalState *internalState = recognizerResult->internalState();
     AppExternalState *externalState = recognizerResult->externalState();
 
-    AppAction *action = interactor->nextAction(internalState);
+    std::unique_ptr<AppAction> action(interactor->nextAction(internalState));
 
     if (action->hasAction())
     {
         std::cerr << "executing..." << std::endl;
-        executor->execute(externalState, action, emulator);
+        executor->execute(externalState, action.get(), emulator.get());
     }
 }
 
@@ -79,6 +83,7 @@ void Solver::mousePressEvent(QMouseEvent *)
 void Solver::closeEvent(QCloseEvent *event)
 {
     std::cerr << "close event called" << std::endl;
+    delete(QWidget::layout());
     emit closed();
     event->accept();
 }

@@ -26,6 +26,7 @@ void c_deInitClicker()
 {
     XCloseDisplay(dpy);
     free(xdo);
+    free(dpy);
 }
 
 
