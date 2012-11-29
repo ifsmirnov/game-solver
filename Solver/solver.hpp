@@ -34,9 +34,6 @@ signals:
 private:
     QImage printScreen();
     void createLayout();
-    std::map<QRgb, double> getColorPartition(QImage);
-    int bestVariant(QImage, std::vector<QImage>);
-    double getDiffInColors(std::map<QRgb, double>, std::map<QRgb, double>);
 
 private:
     // TODO - change to std::unique_ptr; now memory leaks are possible
