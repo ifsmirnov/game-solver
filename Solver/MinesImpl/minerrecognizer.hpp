@@ -11,9 +11,9 @@ class MinerRecognizer : public AppRecognizer
 public:
     MinerRecognizer();
     std::unique_ptr<AppState> recognize(QImage);
-    std::map<QRgb, double> getColorPartition(QImage);
-    int bestVariant(QImage, std::vector<QImage>);
-    double getDiffInColors(std::map<QRgb, double>, std::map<QRgb, double>);
+    std::map<QRgb, double> getColorPartition(const QImage&) const;
+    int bestVariant(const QImage& c,const std::vector<QImage>&) const;
+    double getDiffInColors(const std::map<QRgb, double>&, const std::map<QRgb, double>&) const;
 };
 
 #endif // MINERRECOGNIZER_HPP

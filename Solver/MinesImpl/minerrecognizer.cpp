@@ -15,37 +15,28 @@ std::unique_ptr<AppState> MinerRecognizer::recognize(QImage image)
 }
 
 
-std::map<QRgb, double> MinerRecognizer::getColorPartition(QImage image)
+std::map<QRgb, double> MinerRecognizer::getColorPartition(const QImage& image) const
 {
-    std::map<QRgb, double> tmp;
+    std::map<QRgb, double> pixelMap;
     for (int i = 0; i < image.width(); i++)
     {
         for (int j = 0; j < image.height(); j++)
         {
-            QRgb temp = image.pixel(i, j);
-            if (tmp.find(temp) != tmp.end())
-            {
-                double x = tmp.find(temp)->second;
-                tmp.erase(tmp.find(temp));
-                tmp.insert(std::pair<QRgb, double>(temp, x + 1));
-            }
-            else
-            {
-                tmp.insert(std::pair<QRgb, double>(temp, 1));
-            }
+            QRgb currColor = image.pixel(i, j);
+            pixelMap[currColor] += 1;
         }
     }
     std::map<QRgb, double> result;
-    for (std::map<QRgb, double>::iterator it = tmp.begin(); it != tmp.end(); it++)
+    for (std::map<QRgb, double>::iterator it = pixelMap.begin(); it != pixelMap.end(); it++)
     {
         result.insert(std::pair<QRgb, double>(it->first, it->second/double(image.width() * image.height())));
     }
     return result;
 }
 
-double MinerRecognizer::getDiffInColors(std::map<QRgb, double> x, std::map<QRgb, double> y)
+double MinerRecognizer::getDiffInColors(const std::map<QRgb, double>& x, const std::map<QRgb, double>& y) const
 {
-    std::map<QRgb, double>::iterator xIt, yIt;
+    std::map<QRgb, double>::const_iterator xIt, yIt;
     xIt = x.begin();
     yIt = y.begin();
     double result = 0;
@@ -71,7 +62,7 @@ double MinerRecognizer::getDiffInColors(std::map<QRgb, double> x, std::map<QRgb,
     return result;
 }
 
-int MinerRecognizer::bestVariant(QImage image, std::vector<QImage> variants)
+int MinerRecognizer::bestVariant(const QImage& image, const std::vector<QImage>& variants) const
 {
     int ans = -1;
     double diff = 3;
