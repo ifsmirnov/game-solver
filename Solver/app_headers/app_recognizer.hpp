@@ -16,9 +16,9 @@ public:
     virtual ~AppRecognizer() { }
 
 public:
-    virtual AppState *recognize(QImage)
+    virtual std::unique_ptr<AppState> recognize(QImage)
     {
-        return new AppState(new AppInternalState, new AppExternalState);
+        return std::unique_ptr<AppState>(new AppState(new AppInternalState, new AppExternalState));
     }
 };
 

@@ -35,7 +35,7 @@ std::vector<std::vector<QRgb> > TriggerRecognizer::getPixmap() // QPixmap?
     return pixmap;
 }
 
-void TriggerRecognizer::displayImage() const
+/*void TriggerRecognizer::displayImage() const
 {
     // debug method. should be not used in production!
 
@@ -55,7 +55,7 @@ void TriggerRecognizer::displayImage() const
     renderArea->update();
 
     std::cerr << "Recognizer: created new RenderArea and displayed it" << std::endl;
-}
+}*/
 
 bool operator< (const QPoint& a, const QPoint &b) // replace by local comparator
 {
@@ -113,7 +113,7 @@ TriggerRecognizer::cluster(std::vector<std::pair<QRgb, QPoint> > cells)
     return res;
 }
 
-AppState* TriggerRecognizer::recognize(QImage image_)
+std::unique_ptr<AppState> TriggerRecognizer::recognize(QImage image_)
 {
     image = image_;
 
@@ -161,5 +161,5 @@ AppState* TriggerRecognizer::recognize(QImage image_)
         }
     }
 
-    return new AppState(internalState, externalState);
+    return std::unique_ptr<AppState>(new AppState(internalState, externalState));
 }

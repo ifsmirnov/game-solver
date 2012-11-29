@@ -9,6 +9,7 @@ RenderArea::RenderArea(QWidget *parent) :
 {
 }
 
+
 void RenderArea::paintEvent(QPaintEvent *)
 {
     if (!image.isNull())

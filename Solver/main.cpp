@@ -7,9 +7,11 @@
 
 int main(int argc, char **argv)
 {
+    std::unique_ptr<TriggerFactory> factory(new TriggerFactory);
     QApplication app(argc, argv);
 
-    Solver solver(new TriggerFactory, XClickEmulator::getInstance());
+
+    Solver solver(factory.get(), XClickEmulator::getInstance());
     solver.show();
 
     return app.exec();
