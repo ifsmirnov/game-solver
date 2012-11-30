@@ -17,7 +17,7 @@ public:
     int bestVariant(const QImage& c,const std::vector<QImage>&) const;
     double getDiffInColors(const std::map<QRgb, double>&, const std::map<QRgb, double>&) const;
 
-    std::vector<std::vector<int> > gridSimilarity(const QImage &image, const std::vector<QImage> &patterns, int size) const;
+    std::vector<std::vector<double> > gridSimilarity(const QImage &image, const std::vector<QImage> &patterns, int size) const;
 };
 
 #endif // MINERRECOGNIZER_HPP

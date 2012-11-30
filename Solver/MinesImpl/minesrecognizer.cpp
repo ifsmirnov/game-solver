@@ -81,7 +81,23 @@ int MinesRecognizer::bestVariant(const QImage& image, const std::vector<QImage>&
     return ans;
 }
 
-std::vector<std::vector<int> > MinesRecognizer::gridSimilarity(const QImage &image, const std::vector<QImage> &patterns, int size) const
+std::vector<std::vector<double> > MinesRecognizer::gridSimilarity(const QImage &image, const std::vector<QImage> &patterns, int size) const
 {
+    std::vector<std::map<QRgb, double> > patternColoring;
+    for (const auto &i: patterns)
+        patternColoring.push_back(getColorPartition(i));
 
+    std::vector<std::vector<double> > res(image.width() - size + 1, std::vector<double>(image.height() - size + 1));
+
+    for (int i = 0; i < image.width() - size + 1; i++)
+    {
+        for (int j = 0; j < image.height() - size + 1; j++)
+        {
+            double min = 1.0;
+            for (const auto &pattern: patternColoring)
+                min = std::min(min, getDiffInColors(pattern, getColorPartition(image, QRect(i, j, size, size))));
+            res[i][j] = min;
+        }
+    }
+    return res;
 }
