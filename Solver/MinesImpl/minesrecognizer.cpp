@@ -3,7 +3,6 @@
 #include <map>
 #include <iostream>
 
-
 MinesRecognizer::MinesRecognizer()
 {
 }
@@ -13,21 +12,25 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
     return std::unique_ptr<AppState>(new AppState(new AppInternalState(), new AppExternalState()));
 }
 
-std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image) const
+std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image, QRect rect = QRect()) const
 {
+    if (rect.isNull())
+        rect = image.rect();
     std::map<QRgb, double> pixelMap;
-    for (int i = 0; i < image.width(); i++)
+
+    for (int i = rect.left(); i <= rect.right(); i++)
     {
-        for (int j = 0; j < image.height(); j++)
+        for (int j = rect.top(); i <= rect.bottom(); i++)
         {
             QRgb currColor = image.pixel(i, j);
             pixelMap[currColor] += 1;
         }
     }
+    double factor = rect.width() * rect.height();
     std::map<QRgb, double> result;
     for (std::map<QRgb, double>::iterator it = pixelMap.begin(); it != pixelMap.end(); it++)
     {
-        result.insert(std::pair<QRgb, double>(it->first, it->second/double(image.width() * image.height())));
+        result.insert(std::pair<QRgb, double>(it->first, it->second/factor));
     }
     return result;
 }
@@ -78,4 +81,7 @@ int MinesRecognizer::bestVariant(const QImage& image, const std::vector<QImage>&
     return ans;
 }
 
+std::vector<std::vector<int> > MinesRecognizer::gridSimilarity(const QImage &image, const std::vector<QImage> &patterns, int size) const
+{
 
+}
