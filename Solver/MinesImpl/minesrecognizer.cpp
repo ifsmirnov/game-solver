@@ -1,21 +1,21 @@
-#include "minerrecognizer.hpp"
+#include "minesrecognizer.hpp"
 #include "app_headers/app_recognizer.hpp"
 #include <map>
 #include <iostream>
 
-MinerRecognizer::MinerRecognizer()
+
+MinesRecognizer::MinesRecognizer()
 {
 }
 
 
-std::unique_ptr<AppState> MinerRecognizer::recognize(QImage image)
+std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
 {
-
     return std::unique_ptr<AppState>(new AppState(new AppInternalState(), new AppExternalState()));
 }
 
 
-std::map<QRgb, double> MinerRecognizer::getColorPartition(const QImage& image) const
+std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image) const
 {
     std::map<QRgb, double> pixelMap;
     for (int i = 0; i < image.width(); i++)
@@ -34,7 +34,7 @@ std::map<QRgb, double> MinerRecognizer::getColorPartition(const QImage& image) c
     return result;
 }
 
-double MinerRecognizer::getDiffInColors(const std::map<QRgb, double>& x, const std::map<QRgb, double>& y) const
+double MinesRecognizer::getDiffInColors(const std::map<QRgb, double>& x, const std::map<QRgb, double>& y) const
 {
     std::map<QRgb, double>::const_iterator xIt, yIt;
     xIt = x.begin();
@@ -62,12 +62,12 @@ double MinerRecognizer::getDiffInColors(const std::map<QRgb, double>& x, const s
     return result;
 }
 
-int MinerRecognizer::bestVariant(const QImage& image, const std::vector<QImage>& variants) const
+int MinesRecognizer::bestVariant(const QImage& image, const std::vector<QImage>& variants) const
 {
     int ans = -1;
     double diff = 3;
     std::map<QRgb, double> colors = getColorPartition(image);
-    for (int i = 0; i < variants.size(); i++)
+    for (size_t i = 0; i < variants.size(); i++)
     {
         double temp = getDiffInColors(colors, getColorPartition(variants[i]));
         std::cout << diff << ' ' << temp << std::endl;

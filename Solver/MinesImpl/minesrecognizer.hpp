@@ -6,10 +6,10 @@
 #include <map>
 #include <cmath>
 
-class MinerRecognizer : public AppRecognizer
+class MinesRecognizer : public AppRecognizer
 {
 public:
-    MinerRecognizer();
+    MinesRecognizer();
     std::unique_ptr<AppState> recognize(QImage);
     std::map<QRgb, double> getColorPartition(const QImage&) const;
     int bestVariant(const QImage& c,const std::vector<QImage>&) const;
