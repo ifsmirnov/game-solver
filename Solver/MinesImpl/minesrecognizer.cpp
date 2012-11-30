@@ -8,12 +8,10 @@ MinesRecognizer::MinesRecognizer()
 {
 }
 
-
 std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
 {
     return std::unique_ptr<AppState>(new AppState(new AppInternalState(), new AppExternalState()));
 }
-
 
 std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image) const
 {
@@ -59,7 +57,7 @@ double MinesRecognizer::getDiffInColors(const std::map<QRgb, double>& x, const s
             yIt++;
         }
     }
-    return result;
+    return result / 2.0;
 }
 
 int MinesRecognizer::bestVariant(const QImage& image, const std::vector<QImage>& variants) const
