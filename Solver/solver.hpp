@@ -27,11 +27,13 @@ public:
 
 private slots:
     void makeMove();
+    void f2(std::vector<QPoint>);
 
 signals:
     void closed();
 
 private:
+    void f1();
     QImage printScreen();
     void createLayout();
 

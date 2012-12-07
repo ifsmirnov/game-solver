@@ -7,11 +7,11 @@
 #include <cmath>
 
 #include <app_headers/app_state.hpp>
+#include "MinesImpl/clickcoordreciever.hpp"
 
 Solver::Solver(QWidget *parent) :
     QWidget(parent)
 {
-    // how to call basic constructor from some other one?
     createLayout();
 }
 
@@ -47,7 +47,6 @@ void Solver::setSysEventsEmulator(SysEventsEmulator *emulator_)
     emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
 }
 
-
 QImage Solver::printScreen()
 {
     return QPixmap::grabWindow(QApplication::desktop()->winId()).toImage();
@@ -70,8 +69,25 @@ void Solver::makeMove()
     }
 }
 
+void Solver::f1()
+{
+    ClickCoordReciever *clickCoordReciever = new ClickCoordReciever(this, printScreen(), 2);
+    QObject::connect(clickCoordReciever, SIGNAL(returnResult(std::vector<QPoint>)), this, SLOT(f2(std::vector<QPoint>)));
+    clickCoordReciever->show();
+    clickCoordReciever->setWindowState(Qt::WindowFullScreen);
+    clickCoordReciever->update();
+}
+void Solver::f2(std::vector<QPoint> res)
+{
+    for (auto i: res)
+        std::cerr << i.x() << " " << i.y() << std::endl;
+}
+
 void Solver::mousePressEvent(QMouseEvent *)
 {
+    f1();
+    return;
+
     makeMove();
     /*
     QImage image = printScreen();
@@ -81,9 +97,6 @@ void Solver::mousePressEvent(QMouseEvent *)
     std::cerr << "image set" << std::endl;
     */
 }
-
-
-
 
 void Solver::closeEvent(QCloseEvent *event)
 {
