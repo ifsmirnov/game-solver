@@ -14,16 +14,32 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
 
 std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image, QRect rect = QRect()) const
 {
+    int clusterModule = 64; //magic
     if (rect.isNull())
         rect = image.rect();
     std::map<QRgb, double> pixelMap;
-
     for (int i = rect.left(); i <= rect.right(); i++)
     {
-        for (int j = rect.top(); i <= rect.bottom(); i++)
+        for (int j = rect.top(); j <= rect.bottom(); j++)
         {
             QRgb currColor = image.pixel(i, j);
-            pixelMap[currColor] += 1;
+            int r, g, b;
+            if (qRed(currColor) % clusterModule >= clusterModule / 2) {
+                r = (qRed(currColor) / clusterModule) * clusterModule + clusterModule;
+            } else {
+                r = (qRed(currColor) / clusterModule) * clusterModule;
+            }
+            if (qGreen(currColor) % clusterModule >= clusterModule / 2) {
+                g = (qGreen(currColor) / clusterModule) * clusterModule + clusterModule;
+            } else {
+                g = (qGreen(currColor) / clusterModule) * clusterModule;
+            }
+            if (qBlue(currColor) % clusterModule >= clusterModule / 2) {
+                b = (qBlue(currColor) / clusterModule) * clusterModule + clusterModule;
+            } else {
+                b = (qBlue(currColor) / clusterModule) * clusterModule;
+            }
+            pixelMap[qRgb(r, g, b)] += 1;
         }
     }
     double factor = rect.width() * rect.height();
