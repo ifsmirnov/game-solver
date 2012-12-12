@@ -15,7 +15,7 @@ private:
 public:
     static XClickEmulator* getInstance();
 
-    void mouseClick(int x, int y);
+    void mouseClick(int x, int y, int button);
 
     ~XClickEmulator();
 };

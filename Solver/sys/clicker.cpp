@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-void Clicker::click(int x, int y) {
-    c_click(x, y);
+void Clicker::click(int x, int y, int button) {
+    c_click(x, y, button);
 }
 
 

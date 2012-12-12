@@ -7,6 +7,17 @@ MinesRecognizer::MinesRecognizer()
 {
 }
 
+int MinesRecognizer::getNearestCluster(int color, int clusterModule) const{
+    if (color % clusterModule >= clusterModule / 2)
+    {
+        return color / clusterModule * clusterModule + clusterModule;
+    }
+    else
+    {
+        return color / clusterModule * clusterModule;
+    }
+}
+
 std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
 {
     return std::unique_ptr<AppState>(new AppState(new AppInternalState(), new AppExternalState()));
@@ -24,21 +35,9 @@ std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image, Q
         {
             QRgb currColor = image.pixel(i, j);
             int r, g, b;
-            if (qRed(currColor) % clusterModule >= clusterModule / 2) {
-                r = (qRed(currColor) / clusterModule) * clusterModule + clusterModule;
-            } else {
-                r = (qRed(currColor) / clusterModule) * clusterModule;
-            }
-            if (qGreen(currColor) % clusterModule >= clusterModule / 2) {
-                g = (qGreen(currColor) / clusterModule) * clusterModule + clusterModule;
-            } else {
-                g = (qGreen(currColor) / clusterModule) * clusterModule;
-            }
-            if (qBlue(currColor) % clusterModule >= clusterModule / 2) {
-                b = (qBlue(currColor) / clusterModule) * clusterModule + clusterModule;
-            } else {
-                b = (qBlue(currColor) / clusterModule) * clusterModule;
-            }
+            r = getNearestCluster(qRed(currColor), clusterModule);
+            g = getNearestCluster(qGreen(currColor), clusterModule);
+            b = getNearestCluster(qBlue(currColor), clusterModule);
             pixelMap[qRgb(r, g, b)] += 1;
         }
     }
