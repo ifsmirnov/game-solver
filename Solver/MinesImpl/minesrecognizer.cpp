@@ -1,9 +1,11 @@
 #include "minesrecognizer.hpp"
 #include "app_headers/app_recognizer.hpp"
 #include <map>
+#include <limits>
 #include <iostream>
 
-MinesRecognizer::MinesRecognizer()
+MinesRecognizer::MinesRecognizer(QWidget *parent) :
+    parentSolver(parent)
 {
 }
 
@@ -113,6 +115,49 @@ std::vector<std::vector<double> > MinesRecognizer::gridSimilarity(const QImage &
             for (const auto &pattern: patternColoring)
                 min = std::min(min, getDiffInColors(pattern, getColorPartition(image, QRect(i, j, size, size))));
             res[i][j] = min;
+        }
+    }
+    return res;
+}
+
+std::pair<QPoint, int> MinesRecognizer::bestGridPosition(std::vector<QPoint> pts, int fieldW, int fieldH)
+{
+    if (pts.size() < 2u)
+        throw;
+
+    QPoint ul = pts[0], dr = pts[1];
+    int probableSize = (dr.x() - ul.x()) / (fieldW - 1);
+    int minSize = probableSize*0.9 - 10;
+    int maxSize = probableSize*1.1 + 10;
+    minSize = std::max(0, minSize);
+
+    long long bestDev = std::numeric_limits<long long>::max();
+    std::pair<QPoint, int> res;
+
+    for (int size = minSize; size <= maxSize; size++)
+    {
+        for (int sx = ul.x() - maxSize; sx <= ul.x() + maxSize; sx++)
+        {
+            for (int sy = ul.y() - maxSize; sy <= ul.y() + maxSize; sy++)
+            {
+                long long curDev = 0;
+                for (int i = 0; i < fieldW; i++)
+                {
+                    for (int j = 0; j < fieldH; j++)
+                    {
+                        int x = sx + size*i, y = sy + size*j;
+                        int bestDist = std::numeric_limits<int>::max();
+                        for (auto it: pts)
+                            bestDist = std::min(bestDist, (it.x() - x) * (it.x() - x) + (it.y() - y) * (it.y() - y));
+                        curDev += bestDist;
+                    }
+                }
+                if (curDev < bestDev)
+                {
+                    bestDev = curDev;
+                    res = std::make_pair(QPoint(sx, sy), size);
+                }
+            }
         }
     }
     return res;
