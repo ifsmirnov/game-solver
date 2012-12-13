@@ -4,9 +4,7 @@
 #include <QWidget>
 #include <QImage>
 #include <memory>
-#include <map>
-#include <utility>
-
+#include "configparser.hpp"
 #include "app_headers/app_factory.hpp"
 #include "app_headers/app_actionexecutor.hpp"
 #include "app_headers/app_interactor.hpp"
@@ -27,13 +25,11 @@ public:
 
 private slots:
     void makeMove();
-    void f2(std::vector<QPoint>);
 
 signals:
     void closed();
 
 private:
-    void f1();
     QImage printScreen();
     void createLayout();
 

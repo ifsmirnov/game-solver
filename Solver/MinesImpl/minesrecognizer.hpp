@@ -16,6 +16,7 @@ public:
     std::unique_ptr<AppState> recognize(QImage);
 
     // TODO: make this all private after testing
+    int getNearestCluster(int, int) const;
     std::map<QRgb, double> getColorPartition(const QImage&, QRect) const;
     int bestVariant(const QImage& c,
                     const std::vector<QImage>&) const;

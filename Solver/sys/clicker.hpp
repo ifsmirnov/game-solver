@@ -10,7 +10,7 @@ class Clicker {
 public:
     Clicker();
 
-    void click(int, int);
+    void click(int, int, int);
 
     void deInitClicker();
 };
