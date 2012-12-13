@@ -4,7 +4,7 @@
 
 #include "solver.hpp"
 
-#include "TriggerImpl/triggerfactory.hpp"
+#include "MinesImpl/minesfactory.hpp"
 #include "sys/x_clickemulator.h"
 
 #include <iostream>
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     ConfigParser parser = ConfigParser();
     parser.loadConfig();
     QApplication app(argc, argv);
-    std::unique_ptr<TriggerFactory> factory(new TriggerFactory);
+    std::unique_ptr<MinesFactory> factory(new MinesFactory);
     Solver solver(factory.get(), XClickEmulator::getInstance());
     solver.show();
 

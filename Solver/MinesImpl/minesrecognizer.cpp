@@ -3,9 +3,10 @@
 #include <map>
 #include <limits>
 #include <iostream>
+#include "clickcoordreciever.hpp"
+#include "renderarea.hpp"
 
-MinesRecognizer::MinesRecognizer(QWidget *parent) :
-    parentSolver(parent)
+MinesRecognizer::MinesRecognizer()
 {
 }
 
@@ -22,6 +23,15 @@ int MinesRecognizer::getNearestCluster(int color, int clusterModule) const{
 
 std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
 {
+    std::vector<QPoint> clicks = getUserClicks(image);
+    std::pair<QPoint, int> pos = bestGridPosition(clicks, 16, 16);
+    RenderArea *ra = new RenderArea;
+    for (auto i: clicks)
+        image.setPixel(i, Qt::red);
+    ra->setImage(image.copy(pos.first.x() - pos.second / 2,
+                            pos.first.y() - pos.second / 2,
+                            pos.second * 16, pos.second * 16));
+    ra->show();
     return std::unique_ptr<AppState>(new AppState(new AppInternalState(), new AppExternalState()));
 }
 
@@ -119,6 +129,12 @@ std::vector<std::vector<double> > MinesRecognizer::gridSimilarity(const QImage &
     return res;
 }
 
+std::vector<QPoint> MinesRecognizer::getUserClicks(const QImage &image)
+{
+    ClickCoordReciever *clickCoordReciever = new ClickCoordReciever;
+    return clickCoordReciever->getClicks(image, 10);
+}
+
 std::pair<QPoint, int> MinesRecognizer::bestGridPosition(std::vector<QPoint> pts, int fieldW, int fieldH)
 {
     if (pts.size() < 2u)
@@ -140,16 +156,18 @@ std::pair<QPoint, int> MinesRecognizer::bestGridPosition(std::vector<QPoint> pts
             for (int sy = ul.y() - maxSize; sy <= ul.y() + maxSize; sy++)
             {
                 long long curDev = 0;
-                for (int i = 0; i < fieldW; i++)
+                for (auto it: pts)
                 {
-                    for (int j = 0; j < fieldH; j++)
+                    int bestDist = std::numeric_limits<int>::max();
+                    for (int i = 0; i < fieldW; i++)
                     {
-                        int x = sx + size*i, y = sy + size*j;
-                        int bestDist = std::numeric_limits<int>::max();
-                        for (auto it: pts)
+                        for (int j = 0; j < fieldH; j++)
+                        {
+                            int x = sx + size*i, y = sy + size*j;
                             bestDist = std::min(bestDist, (it.x() - x) * (it.x() - x) + (it.y() - y) * (it.y() - y));
-                        curDev += bestDist;
+                        }
                     }
+                    curDev += bestDist;
                 }
                 if (curDev < bestDev)
                 {
