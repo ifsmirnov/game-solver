@@ -30,7 +30,9 @@ HEADERS += \
     MinesImpl/minesactionexecutor.hpp \
     MinesImpl/minesinteractor.hpp \
     MinesImpl/minescustomizer.hpp \
-    MinesImpl/minesfactory.hpp
+    MinesImpl/minesfactory.hpp \
+    app_headers/app_recognizer_helper.hpp \
+    MinesImpl/minesrecognizerhelper.hpp
 
 SOURCES += \
     solver.cpp \
@@ -56,7 +58,8 @@ SOURCES += \
     MinesImpl/minesactionexecutor.cpp \
     MinesImpl/minesinteractor.cpp \
     MinesImpl/minescustomizer.cpp \
-    MinesImpl/minesfactory.cpp
+    MinesImpl/minesfactory.cpp \
+    MinesImpl/minesrecognizerhelper.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11
