@@ -20,7 +20,15 @@ HEADERS += \
     TriggerImpl/triggerinternalstate.hpp \
     TriggerImpl/triggerexternalstate.hpp \
     TriggerImpl/triggeraction.hpp \
-    TriggerImpl/triggerinteractor.hpp
+    TriggerImpl/triggerinteractor.hpp \
+    MinesImpl/minesrecognizer.hpp \
+    MinesImpl/clickcoordreciever.hpp \
+    MinesImpl/minesinternalstate.hpp \
+    MinesImpl/minesexternalstate.hpp \
+    MinesImpl/minesaction.hpp \
+    configparser.hpp \
+    MinesImpl/minesactionexecutor.hpp \
+    MinesImpl/minesinteractor.hpp
 
 SOURCES += \
     solver.cpp \
@@ -36,7 +44,17 @@ SOURCES += \
     TriggerImpl/triggerinternalstate.cpp \
     TriggerImpl/triggerexternalstate.cpp \
     TriggerImpl/triggeraction.cpp \
-    TriggerImpl/triggerinteractor.cpp
+    TriggerImpl/triggerinteractor.cpp \
+    MinesImpl/minesrecognizer.cpp \
+    MinesImpl/clickcoordreciever.cpp \
+    MinesImpl/minesinternalstate.cpp \
+    MinesImpl/minesexternalstate.cpp \
+    MinesImpl/minesaction.cpp \
+    configparser.cpp \
+    MinesImpl/minesactionexecutor.cpp \
+    MinesImpl/minesinteractor.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11
+QT += xml
+

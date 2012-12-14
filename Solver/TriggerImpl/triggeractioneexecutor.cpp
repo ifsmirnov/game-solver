@@ -1,6 +1,6 @@
 #include "triggeractioneexecutor.hpp"
 #include "sys/emulator.hpp"
-
+#include <iostream>
 #include <unistd.h>
 
 TriggerActioneExecutor::TriggerActioneExecutor()
@@ -19,7 +19,7 @@ void TriggerActioneExecutor::execute(const AppExternalState *extState_,
         for(int i = 0; i < (int)turns.size(); i++)
         {
             mouseTarget = extState->getCoordinate(turns[i].x(), turns[i].y());
-            emulator->mouseClick(mouseTarget.x(), mouseTarget.y());
+            emulator->mouseClick(mouseTarget.x(), mouseTarget.y(), Qt::RightButton);
             usleep(100 * 1000);
         }
     }

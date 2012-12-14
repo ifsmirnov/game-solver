@@ -1,6 +1,8 @@
 #include "renderarea.hpp"
 
 #include <QPainter>
+#include <QApplication>
+#include <QtGui>
 
 #include <iostream>
 
@@ -8,6 +10,7 @@ RenderArea::RenderArea(QWidget *parent) :
     QWidget(parent)
 {
 }
+
 
 void RenderArea::paintEvent(QPaintEvent *)
 {
@@ -29,4 +32,12 @@ void RenderArea::setImage(QImage image_)
 QSize RenderArea::sizeHint() const
 {
     return QSize(320, 240);
+}
+
+
+void RenderArea::setDesktop()
+{
+    std::cerr << "Set desktop" << std::endl;
+    setImage(QPixmap::grabWindow(QApplication::desktop()->winId()).toImage());
+    update();
 }

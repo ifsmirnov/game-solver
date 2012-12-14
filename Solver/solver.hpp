@@ -3,7 +3,8 @@
 
 #include <QWidget>
 #include <QImage>
-
+#include <memory>
+#include "configparser.hpp"
 #include "app_headers/app_factory.hpp"
 #include "app_headers/app_actionexecutor.hpp"
 #include "app_headers/app_interactor.hpp"
@@ -34,12 +35,12 @@ private:
 
 private:
     // TODO - change to std::unique_ptr; now memory leaks are possible
-    AppActionExecutor *executor;
-    AppInteractor *interactor;
-    AppRecognizer *recognizer;
-    SysEventsEmulator *emulator;
+    std::unique_ptr<AppActionExecutor> executor;
+    std::unique_ptr<AppInteractor> interactor;
+    std::unique_ptr<AppRecognizer> recognizer;
+    std::unique_ptr<SysEventsEmulator> emulator;
 
-    RenderArea *renderArea;
+    std::unique_ptr<RenderArea> renderArea;
 
     void mousePressEvent(QMouseEvent *);
     void closeEvent(QCloseEvent *);

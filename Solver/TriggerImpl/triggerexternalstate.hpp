@@ -16,7 +16,7 @@ public:
 
 private:
 
-    //containes coordinates for button (x,y) on screen relative to window
+    //containes coordinates for button (x,y) on screen relative to screen
     std::vector<std::vector <QPoint> > coordinates_;
 
 };

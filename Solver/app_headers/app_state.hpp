@@ -4,6 +4,8 @@
 #include "app_internalstate.hpp"
 #include "app_externalstate.hpp"
 
+#include <memory>
+
 class AppState
 {
 public:
@@ -12,12 +14,12 @@ public:
         { }
     virtual ~AppState() { }
 
-    AppInternalState *internalState() const { return internalState_; }
-    AppExternalState *externalState() const { return externalState_; }
+    AppInternalState *internalState() const { return internalState_.get(); }
+    AppExternalState *externalState() const { return externalState_.get(); }
 
 private:
-    AppInternalState *internalState_;
-    AppExternalState *externalState_;
+    std::unique_ptr<AppInternalState> internalState_;
+    std::unique_ptr<AppExternalState> externalState_;
 };
 
 #endif // APP_STATE_HPP
