@@ -2,6 +2,7 @@
 #define MINERRECOGNIZER_HPP
 
 #include "app_headers/app_recognizer.hpp"
+#include "app_headers/app_recognizer_helper.hpp"
 #include <memory>
 #include <map>
 #include <cmath>
@@ -13,7 +14,7 @@ class MinesRecognizer : public AppRecognizer
 {
 public:
     MinesRecognizer();
-    std::unique_ptr<AppState> recognize(QImage);
+    std::unique_ptr<AppState> recognize(QImage, AppRecognizerHelper*);
 
     // TODO: make this all private after testing
     int getNearestCluster(int, int) const;

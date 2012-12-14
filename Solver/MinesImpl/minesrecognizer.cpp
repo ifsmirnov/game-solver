@@ -1,7 +1,8 @@
 #include "minesrecognizer.hpp"
 #include "minesinternalstate.hpp"
 #include "minesexternalstate.hpp"
-#include "app_headers/app_recognizer.hpp"
+#include "minesrecognizerhelper.hpp"
+#include "app_headers/app_recognizer.hpp""
 #include <map>
 #include <limits>
 #include <iostream>
@@ -23,8 +24,10 @@ int MinesRecognizer::getNearestCluster(int color, int clusterModule) const{
     }
 }
 
-std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
+std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizerHelper* helper_)
 {
+    MinesRecognizerHelper *helper = dynamic_cast<MinesRecognizerHelper*>(helper_);
+
     int w = 16, h = 16;
     std::vector<QPoint> clicks = getUserClicks(image);
     std::pair<QPoint, int> pos = bestGridPosition(clicks, w, h);
@@ -34,9 +37,7 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
                             pos.second * w, pos.second * h));
     ra->show();*/
     const char* names[] = {"1", "2", "3", "4", "5", "6", "7", "8", "blown", "opened", "unopened"};
-    std::vector<QImage> samples(11);
-    for (int i = 0; i < 11; ++i)
-        samples[i].load((std::string("../Solver/img/") + names[i] + ".png").c_str());
+    std::vector<QImage> samples = helper->getImages();
     for (int i = 0; i < w; i++)
     {
         for (int j = 0; j < h; j++)

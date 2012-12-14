@@ -113,7 +113,7 @@ TriggerRecognizer::cluster(std::vector<std::pair<QRgb, QPoint> > cells)
     return res;
 }
 
-std::unique_ptr<AppState> TriggerRecognizer::recognize(QImage image_)
+std::unique_ptr<AppState> TriggerRecognizer::recognize(QImage image_, AppRecognizerHelper*)
 {
     image = image_;
 
