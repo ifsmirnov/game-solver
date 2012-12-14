@@ -39,6 +39,7 @@ private:
     std::unique_ptr<AppInteractor> interactor;
     std::unique_ptr<AppRecognizer> recognizer;
     std::unique_ptr<SysEventsEmulator> emulator;
+    std::unique_ptr<AppRecognizerHelper> helper;
 
     std::unique_ptr<RenderArea> renderArea;
 

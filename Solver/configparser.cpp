@@ -4,8 +4,8 @@
 
 ConfigParser::ConfigParser()
 {
-    QString names[11] = {"one", "two", "three", "four", "five", "six", "seven", "eight", "opened", "unopened", "blown"};
-    fieldNames.assign(names, names + 11);
+    QString names[13] = {"one", "two", "three", "four", "five", "six", "seven", "eight", "opened", "unopened", "blown", "flag", "mine"};
+    fieldNames.assign(names, names + 13);
 }
 
 bool ConfigParser::checkFile(const std::string& path) const

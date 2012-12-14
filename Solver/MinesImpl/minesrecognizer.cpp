@@ -11,6 +11,7 @@
 
 MinesRecognizer::MinesRecognizer()
 {
+    posFound = false;
 }
 
 int MinesRecognizer::getNearestCluster(int color, int clusterModule) const{
@@ -29,27 +30,36 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizer
     MinesRecognizerHelper *helper = dynamic_cast<MinesRecognizerHelper*>(helper_);
 
     int w = 16, h = 16;
-    std::vector<QPoint> clicks = getUserClicks(image);
-    std::pair<QPoint, int> pos = bestGridPosition(clicks, w, h);
+    if(!posFound)
+    {
+        std::vector<QPoint> clicks = getUserClicks(image);
+        pos = bestGridPosition(clicks, w, h);
+        posFound = true;
+    }
     /*RenderArea *ra = new RenderArea;
     ra->setImage(image.copy(pos.first.x() - pos.second / 2,
                             pos.first.y() - pos.second / 2,
                             pos.second * w, pos.second * h));
     ra->show();*/
-    const char* names[] = {"1", "2", "3", "4", "5", "6", "7", "8", "blown", "opened", "unopened"};
+    const char* names[] = {"opened", "1", "2", "3", "4", "5", "6", "7", "8", "unopened", "blown", };
     std::vector<QImage> samples = helper->getImages();
-    for (int i = 0; i < w; i++)
+    std::cerr << samples.size() << std::endl;
+    MinesInternalState* internalState = new MinesInternalState(w, h);
+    MinesExternalState* externalState = new MinesExternalState(w, h);
+    for (int j = 0; j < h; j++)
     {
-        for (int j = 0; j < h; j++)
+        for (int i = 0; i < w; i++)
         {
-            QImage img = image.copy(pos.first.x() - pos.second/2 + pos.second * j,
-                                    pos.first.y() - pos.second/2 + pos.second * i,
+            QImage img = image.copy(pos.first.x() - pos.second/2 + pos.second * i,
+                                    pos.first.y() - pos.second/2 + pos.second * j,
                                     pos.second, pos.second);
-            std::cout << names[bestVariant(img, samples)][0];
+            internalState->setField(i, j, bestVariant(img, samples));
+            std::cout << bestVariant(img, samples) << ' ';
+            externalState->setCoordinate(i, j, pos.first.x() + pos.second * i, pos.first.y() + pos.second * j);
         }
         std::cout << std::endl;
     }
-    return std::unique_ptr<AppState>(new AppState(new MinesInternalState(w, h), new MinesExternalState(w, h)));
+    return std::unique_ptr<AppState>(new AppState(internalState, externalState));
 }
 
 std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image, QRect rect = QRect()) const

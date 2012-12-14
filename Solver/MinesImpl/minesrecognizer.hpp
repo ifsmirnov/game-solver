@@ -29,7 +29,8 @@ public:
                                                      int size) const;
 
     std::vector<QPoint> getUserClicks(const QImage&);
-
+    std::pair<QPoint, int> pos;
+    bool posFound;
 public:
     std::pair<QPoint, int> bestGridPosition(std::vector<QPoint> pts, int fieldW, int fieldH);
 };

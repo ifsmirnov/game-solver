@@ -8,6 +8,7 @@
 #include <app_headers/app_state.hpp>
 #include <MinesImpl/clickcoordreciever.hpp>
 #include <MinesImpl/minescustomizer.hpp>
+#include <MinesImpl/minesrecognizerhelper.hpp>
 
 Solver::Solver(QWidget *parent) :
     QWidget(parent)
@@ -19,6 +20,23 @@ Solver::Solver(QWidget *parent) :
 Solver::Solver(AppFactory *factory_, SysEventsEmulator *emulator_, QWidget *parent) :
     QWidget(parent)
 {
+    helper = std::unique_ptr<AppRecognizerHelper>(new MinesRecognizerHelper());
+    std::vector<QImage> images;
+    images.push_back(QImage("img/opened.png"));
+    images.push_back(QImage("img/1.png"));
+    images.push_back(QImage("img/2.png"));
+    images.push_back(QImage("img/3.png"));
+    images.push_back(QImage("img/4.png"));
+    images.push_back(QImage("img/5.png"));
+    images.push_back(QImage("img/6.png"));
+    images.push_back(QImage("img/7.png"));
+    images.push_back(QImage("img/8.png"));
+    images.push_back(QImage("img/unopened.png"));
+    images.push_back(QImage("img/blown.png"));
+    images.push_back(QImage("img/flag.png"));
+    images.push_back(QImage("img/mine.png"));
+    MinesRecognizerHelper* helper_ = dynamic_cast<MinesRecognizerHelper*>(helper.get());
+    helper_->setImages(images);
     createLayout();
     emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
     setApp(factory_);
@@ -55,21 +73,19 @@ QImage Solver::printScreen()
 
 void Solver::makeMove()
 {
-    std::cerr << "Making move..." << std::endl;
-
-    std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen(), nullptr);
-    AppInternalState *internalState = recognizerResult->internalState();
-    AppExternalState *externalState = recognizerResult->externalState();
-
-    std::unique_ptr<AppAction> action(interactor->nextAction(internalState));
-
-    if (action->hasAction())
+    while(true)
     {
-        std::cerr << "executing..." << std::endl;
+        std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen(), helper.get());
+        AppInternalState *internalState = recognizerResult->internalState();
+        AppExternalState *externalState = recognizerResult->externalState();
+        std::unique_ptr<AppAction> action(interactor->nextAction(internalState));
         executor->execute(externalState, action.get(), emulator.get());
+        if(!action->hasAction())
+        {
+            break;
+        }
     }
 
-    std::cerr << "Move is made" << std::endl;
 }
 
 void Solver::mousePressEvent(QMouseEvent *)
