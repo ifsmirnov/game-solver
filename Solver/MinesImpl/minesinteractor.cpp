@@ -1,5 +1,6 @@
 #include "minesinteractor.hpp"
 #include <cstdlib>
+#include <ctime>
 
 MinesInteractor::MinesInteractor()
 {

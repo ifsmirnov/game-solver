@@ -1,4 +1,5 @@
 #include "minesactionexecutor.hpp"
+#include <unistd.h>
 
 MinesActionExecutor::MinesActionExecutor()
 {

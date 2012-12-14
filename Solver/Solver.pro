@@ -28,7 +28,9 @@ HEADERS += \
     MinesImpl/minesaction.hpp \
     configparser.hpp \
     MinesImpl/minesactionexecutor.hpp \
-    MinesImpl/minesinteractor.hpp
+    MinesImpl/minesinteractor.hpp \
+    MinesImpl/minescustomizer.hpp \
+    MinesImpl/minesfactory.hpp
 
 SOURCES += \
     solver.cpp \
@@ -52,9 +54,10 @@ SOURCES += \
     MinesImpl/minesaction.cpp \
     configparser.cpp \
     MinesImpl/minesactionexecutor.cpp \
-    MinesImpl/minesinteractor.cpp
+    MinesImpl/minesinteractor.cpp \
+    MinesImpl/minescustomizer.cpp \
+    MinesImpl/minesfactory.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11
 QT += xml
-

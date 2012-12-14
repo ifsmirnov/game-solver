@@ -2,15 +2,12 @@
 
 #include <QMouseEvent>
 #include <QPainter>
+#include <QApplication>
 #include <iostream>
 
-ClickCoordReciever::ClickCoordReciever(QWidget *parent, QImage image_, int number) :
-    QWidget(0), image(image_), leftClicksToRecieve(number)
+ClickCoordReciever::ClickCoordReciever(QWidget *parent) :
+    QWidget(parent)
 {
-    // Solver is connected to this because this should be closed when solver is closed
-    if (parent)
-        QObject::connect(parent, SIGNAL(closed()), this, SLOT(close()));
-    std::cerr << "created" << std::endl;
 }
 void ClickCoordReciever::mousePressEvent(QMouseEvent *event)
 {
@@ -19,7 +16,6 @@ void ClickCoordReciever::mousePressEvent(QMouseEvent *event)
     recievedClicks.push_back(event->pos());
     if (--leftClicksToRecieve == 0)
     {
-        emit returnResult(recievedClicks);
         close();
     }
 }
@@ -30,4 +26,15 @@ void ClickCoordReciever::paintEvent(QPaintEvent *)
     painter.setPen(Qt::red);
     painter.setFont(QFont(QString("sans"), 48, 1, false));
     painter.drawText(100, 100, 500, 200, 0, QString("PRINT SCREEN!"));
+}
+std::vector<QPoint> ClickCoordReciever::getClicks(const QImage& image_, int clicksNumber)
+{
+    image = image_;
+    leftClicksToRecieve = clicksNumber;
+    recievedClicks.clear();
+    setWindowState(Qt::WindowFullScreen);
+    show();
+    while (leftClicksToRecieve)
+        QApplication::processEvents();
+    return recievedClicks;
 }

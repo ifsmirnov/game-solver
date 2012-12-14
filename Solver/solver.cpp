@@ -6,6 +6,8 @@
 #include <iostream>
 
 #include <app_headers/app_state.hpp>
+#include <MinesImpl/clickcoordreciever.hpp>
+#include <MinesImpl/minescustomizer.hpp>
 
 Solver::Solver(QWidget *parent) :
     QWidget(parent)
@@ -53,10 +55,10 @@ QImage Solver::printScreen()
 
 void Solver::makeMove()
 {
-    std::cerr << "Making move" << std::endl;
+    std::cerr << "Making move..." << std::endl;
 
     std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen());
-    AppInternalState *internalState = recognizerResult->internalState();
+    /*AppInternalState *internalState = recognizerResult->internalState();
     AppExternalState *externalState = recognizerResult->externalState();
 
     std::unique_ptr<AppAction> action(interactor->nextAction(internalState));
@@ -65,7 +67,9 @@ void Solver::makeMove()
     {
         std::cerr << "executing..." << std::endl;
         executor->execute(externalState, action.get(), emulator.get());
-    }
+    }*/
+
+    std::cerr << "Move is made" << std::endl;
 }
 
 void Solver::mousePressEvent(QMouseEvent *)

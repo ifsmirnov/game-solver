@@ -12,7 +12,7 @@
 class MinesRecognizer : public AppRecognizer
 {
 public:
-    MinesRecognizer(QWidget *parent);
+    MinesRecognizer();
     std::unique_ptr<AppState> recognize(QImage);
 
     // TODO: make this all private after testing
@@ -27,8 +27,9 @@ public:
                                                      const std::vector<QImage> &patterns,
                                                      int size) const;
 
+    std::vector<QPoint> getUserClicks(const QImage&);
+
 public:
-    const QWidget *parentSolver; // this widget closes any window when is closed itself
     std::pair<QPoint, int> bestGridPosition(std::vector<QPoint> pts, int fieldW, int fieldH);
 };
 

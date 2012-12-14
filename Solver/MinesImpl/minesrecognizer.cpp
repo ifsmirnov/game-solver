@@ -3,9 +3,10 @@
 #include <map>
 #include <limits>
 #include <iostream>
+#include "clickcoordreciever.hpp"
+#include "renderarea.hpp"
 
-MinesRecognizer::MinesRecognizer(QWidget *parent) :
-    parentSolver(parent)
+MinesRecognizer::MinesRecognizer()
 {
 }
 
@@ -22,12 +23,36 @@ int MinesRecognizer::getNearestCluster(int color, int clusterModule) const{
 
 std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
 {
+    int w = 16, h = 16;
+    std::vector<QPoint> clicks = getUserClicks(image);
+    std::pair<QPoint, int> pos = bestGridPosition(clicks, w, h);
+    /*RenderArea *ra = new RenderArea;
+    ra->setImage(image.copy(pos.first.x() - pos.second / 2,
+                            pos.first.y() - pos.second / 2,
+                            pos.second * w, pos.second * h));
+    ra->show();*/
+    const char* names[] = {"1", "2", "3", "4", "5", "6", "7", "8", "blown", "opened", "unopened"};
+    std::vector<QImage> samples(11);
+    for (int i = 0; i < 11; ++i)
+        samples[i].load((std::string("../Solver/img/") + names[i] + ".png").c_str());
+    for (int i = 0; i < w; i++)
+    {
+        for (int j = 0; j < h; j++)
+        {
+            QImage img = image.copy(pos.first.x() - pos.second/2 + pos.second * j,
+                                    pos.first.y() - pos.second/2 + pos.second * i,
+                                    pos.second, pos.second);
+            std::cout << names[bestVariant(img, samples)][0];
+        }
+        std::cout << std::endl;
+    }
     return std::unique_ptr<AppState>(new AppState(new AppInternalState(), new AppExternalState()));
 }
 
 std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image, QRect rect = QRect()) const
 {
-    int clusterModule = 64; //magic
+    //int clusterModule = 64; //magic
+    int clusterModule = 1; // even more magic!
     if (rect.isNull())
         rect = image.rect();
     std::map<QRgb, double> pixelMap;
@@ -88,7 +113,7 @@ int MinesRecognizer::bestVariant(const QImage& image, const std::vector<QImage>&
     for (size_t i = 0; i < variants.size(); i++)
     {
         double temp = getDiffInColors(colors, getColorPartition(variants[i]));
-        std::cout << diff << ' ' << temp << std::endl;
+        //std::cout << diff << ' ' << temp << std::endl;
         if (temp < diff)
         {
             diff = temp;
@@ -119,6 +144,12 @@ std::vector<std::vector<double> > MinesRecognizer::gridSimilarity(const QImage &
     return res;
 }
 
+std::vector<QPoint> MinesRecognizer::getUserClicks(const QImage &image)
+{
+    ClickCoordReciever *clickCoordReciever = new ClickCoordReciever;
+    return clickCoordReciever->getClicks(image, 5);
+}
+
 std::pair<QPoint, int> MinesRecognizer::bestGridPosition(std::vector<QPoint> pts, int fieldW, int fieldH)
 {
     if (pts.size() < 2u)
@@ -140,16 +171,18 @@ std::pair<QPoint, int> MinesRecognizer::bestGridPosition(std::vector<QPoint> pts
             for (int sy = ul.y() - maxSize; sy <= ul.y() + maxSize; sy++)
             {
                 long long curDev = 0;
-                for (int i = 0; i < fieldW; i++)
+                for (auto it: pts)
                 {
-                    for (int j = 0; j < fieldH; j++)
+                    int bestDist = std::numeric_limits<int>::max();
+                    for (int i = 0; i < fieldW; i++)
                     {
-                        int x = sx + size*i, y = sy + size*j;
-                        int bestDist = std::numeric_limits<int>::max();
-                        for (auto it: pts)
+                        for (int j = 0; j < fieldH; j++)
+                        {
+                            int x = sx + size*i, y = sy + size*j;
                             bestDist = std::min(bestDist, (it.x() - x) * (it.x() - x) + (it.y() - y) * (it.y() - y));
-                        curDev += bestDist;
+                        }
                     }
+                    curDev += bestDist;
                 }
                 if (curDev < bestDev)
                 {

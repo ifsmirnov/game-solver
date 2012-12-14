@@ -9,16 +9,14 @@ class ClickCoordReciever : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ClickCoordReciever(QWidget *parent,
-                                QImage image_,
-                                int number);
+    explicit ClickCoordReciever(QWidget *parent = 0);
+
+public:
+    std::vector<QPoint> getClicks(const QImage&, int);
 
 private:
     void mousePressEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
-
-signals:
-    void returnResult(std::vector<QPoint>);
 
 private:
     QImage image;
