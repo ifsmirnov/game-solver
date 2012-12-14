@@ -4,7 +4,7 @@
 #include <vector>
 #include <QImage>
 
-class MinesRecognizerHelper
+class MinesRecognizerHelper : public AppRecognizerHelper
 {
 private:
     std::vector<QImage> images_;

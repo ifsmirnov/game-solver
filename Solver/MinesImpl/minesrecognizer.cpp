@@ -2,7 +2,7 @@
 #include "minesinternalstate.hpp"
 #include "minesexternalstate.hpp"
 #include "minesrecognizerhelper.hpp"
-#include "app_headers/app_recognizer.hpp""
+#include "app_headers/app_recognizer.hpp"
 #include <map>
 #include <limits>
 #include <iostream>

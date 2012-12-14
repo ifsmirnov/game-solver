@@ -57,7 +57,7 @@ void Solver::makeMove()
 {
     std::cerr << "Making move..." << std::endl;
 
-    std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen());
+    std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen(), nullptr);
     AppInternalState *internalState = recognizerResult->internalState();
     AppExternalState *externalState = recognizerResult->externalState();
 

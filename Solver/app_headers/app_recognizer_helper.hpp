@@ -1,13 +1,13 @@
 #ifndef APP_RECOGNIZER_HELPER_HPP
 #define APP_RECOGNIZER_HELPER_HPP
 
-#endif // APP_RECOGNIZER_HELPER_HPP
 
-
-class AppRecognizerHerlper
+class AppRecognizerHelper
 {
 public:
-    AppRecognizerHerlper(){}
+    AppRecognizerHelper(){}
 
-    virtual ~AppRecognizerHerlper(){}
+    virtual ~AppRecognizerHelper(){}
 };
+
+#endif // APP_RECOGNIZER_HELPER_HPP
