@@ -26,7 +26,9 @@ HEADERS += \
     MinesImpl/minesinternalstate.hpp \
     MinesImpl/minesexternalstate.hpp \
     MinesImpl/minesaction.hpp \
-    configparser.hpp
+    configparser.hpp \
+    MinesImpl/minesactionexecutor.hpp \
+    MinesImpl/minesinteractor.hpp
 
 SOURCES += \
     solver.cpp \
@@ -48,7 +50,9 @@ SOURCES += \
     MinesImpl/minesinternalstate.cpp \
     MinesImpl/minesexternalstate.cpp \
     MinesImpl/minesaction.cpp \
-    configparser.cpp
+    configparser.cpp \
+    MinesImpl/minesactionexecutor.cpp \
+    MinesImpl/minesinteractor.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11

@@ -19,9 +19,9 @@ bool ConfigParser::checkFile(const std::string& path) const
     return false;
 }
 
-bool ConfigParser::checkPictures(const QDomElement& picturesNode) const
+bool ConfigParser::checkPictures(const QDomElement& vesionNode) const
 {
-    QDomElement child = picturesNode.firstChildElement();
+    QDomElement child = vesionNode.firstChildElement();
     int picturesFound = 0; //amount of pictures which were found, at the end it must equal to 11
     while(!child.isNull())
     {
@@ -38,7 +38,7 @@ bool ConfigParser::checkPictures(const QDomElement& picturesNode) const
     return true;
 }
 
-void ConfigParser::loadConfig()
+void ConfigParser::loadConfig(QComboBox* comboBox)
 {
     if(checkFile("AppConfig.xml"))
     {
@@ -50,12 +50,15 @@ void ConfigParser::loadConfig()
         QDomNodeList childs = document.documentElement().elementsByTagName("versions");
         if(childs.length() == 1)
         {
-            QDomElement pictureNode = childs.item(0).firstChildElement();
+            QDomElement vesionNode = childs.item(0).firstChildElement();
             bool fail = false;
-            while(!pictureNode.isNull())
+            while(!vesionNode.isNull())
             {
-                fail = fail || !checkPictures(pictureNode);
-                pictureNode = pictureNode.nextSiblingElement();
+                if(checkPictures(vesionNode))
+                {
+                    comboBox->addItem(vesionNode.tagName());
+                }
+                vesionNode = vesionNode.nextSiblingElement();
             }
         }
     }

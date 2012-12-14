@@ -5,6 +5,7 @@
 #include <QtXml/QDomElement>
 #include <QtXml/QDomNodeList>
 #include <QtXml/QDomNode>
+#include <QComboBox>
 #include <QString>
 #include <iostream>
 #include <fstream>
@@ -22,7 +23,7 @@ public:
     ConfigParser();
     bool checkFile(const std::string&) const;
     bool checkPictures(const QDomElement&) const;
-    void loadConfig();
+    void loadConfig(QComboBox*);
 };
 
 
