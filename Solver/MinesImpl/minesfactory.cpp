@@ -1,8 +1,8 @@
 #include "minesfactory.hpp"
 
-#include "TriggerImpl/triggeractioneexecutor.hpp"
+#include "minesactionexecutor.hpp"
 #include "minesrecognizer.hpp"
-#include "TriggerImpl/triggerinteractor.hpp"
+#include "minesinteractor.hpp"
 
 MinesFactory::MinesFactory()
 {
@@ -10,12 +10,12 @@ MinesFactory::MinesFactory()
 
 AppActionExecutor *MinesFactory::createExecutor()
 {
-    return new TriggerActioneExecutor;
+    return new MinesActionExecutor;
 }
 
 AppInteractor *MinesFactory::createInteractor()
 {
-    return new TriggerInteractor;
+    return new MinesInteractor;
 }
 
 AppRecognizer *MinesFactory::createRecognizer()

@@ -6,6 +6,7 @@
 
 class MinesActionExecutor:public AppActionExecutor
 {
+public:
     MinesActionExecutor();
 
     void execute(const AppExternalState *externalState,

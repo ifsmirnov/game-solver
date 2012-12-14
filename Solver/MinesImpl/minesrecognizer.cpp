@@ -1,4 +1,6 @@
 #include "minesrecognizer.hpp"
+#include "minesinternalstate.hpp"
+#include "minesexternalstate.hpp"
 #include "app_headers/app_recognizer.hpp"
 #include <map>
 #include <limits>
@@ -46,7 +48,7 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image)
         }
         std::cout << std::endl;
     }
-    return std::unique_ptr<AppState>(new AppState(new AppInternalState(), new AppExternalState()));
+    return std::unique_ptr<AppState>(new AppState(new MinesInternalState(w, h), new MinesExternalState(w, h)));
 }
 
 std::map<QRgb, double> MinesRecognizer::getColorPartition(const QImage& image, QRect rect = QRect()) const

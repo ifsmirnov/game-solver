@@ -58,7 +58,7 @@ void Solver::makeMove()
     std::cerr << "Making move..." << std::endl;
 
     std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen());
-    /*AppInternalState *internalState = recognizerResult->internalState();
+    AppInternalState *internalState = recognizerResult->internalState();
     AppExternalState *externalState = recognizerResult->externalState();
 
     std::unique_ptr<AppAction> action(interactor->nextAction(internalState));
@@ -67,7 +67,7 @@ void Solver::makeMove()
     {
         std::cerr << "executing..." << std::endl;
         executor->execute(externalState, action.get(), emulator.get());
-    }*/
+    }
 
     std::cerr << "Move is made" << std::endl;
 }
@@ -75,13 +75,6 @@ void Solver::makeMove()
 void Solver::mousePressEvent(QMouseEvent *)
 {
     makeMove();
-    /*
-    QImage image = printScreen();
-    std::cerr << "pre img size:" << image.width() << " " << image.height() << std::endl;
-    renderArea->setImage(image);
-    update();
-    std::cerr << "image set" << std::endl;
-    */
 }
 
 void Solver::closeEvent(QCloseEvent *event)
