@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QImage>
+#include <QComboBox>
 #include <memory>
 #include "configparser.hpp"
 #include "app_headers/app_factory.hpp"
@@ -43,6 +44,9 @@ private:
 
     std::unique_ptr<RenderArea> renderArea;
 
+    std::unique_ptr<QComboBox> comboBox;
+    std::vector<QImage> images;
+    ConfigParser configParser;
     void mousePressEvent(QMouseEvent *);
     void closeEvent(QCloseEvent *);
 };

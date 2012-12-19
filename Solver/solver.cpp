@@ -21,22 +21,6 @@ Solver::Solver(AppFactory *factory_, SysEventsEmulator *emulator_, QWidget *pare
     QWidget(parent)
 {
     helper = std::unique_ptr<AppRecognizerHelper>(new MinesRecognizerHelper());
-    std::vector<QImage> images;
-    images.push_back(QImage("img/opened.png"));
-    images.push_back(QImage("img/1.png"));
-    images.push_back(QImage("img/2.png"));
-    images.push_back(QImage("img/3.png"));
-    images.push_back(QImage("img/4.png"));
-    images.push_back(QImage("img/5.png"));
-    images.push_back(QImage("img/6.png"));
-    images.push_back(QImage("img/7.png"));
-    images.push_back(QImage("img/8.png"));
-    images.push_back(QImage("img/unopened.png"));
-    images.push_back(QImage("img/blown.png"));
-    images.push_back(QImage("img/flag.png"));
-    images.push_back(QImage("img/mine.png"));
-    MinesRecognizerHelper* helper_ = dynamic_cast<MinesRecognizerHelper*>(helper.get());
-    helper_->setImages(images);
     createLayout();
     emulator = std::unique_ptr<SysEventsEmulator>(emulator_);
     setApp(factory_);
@@ -47,6 +31,9 @@ void Solver::createLayout()
     QGridLayout *layout = new QGridLayout;
     renderArea = std::unique_ptr<RenderArea>(new RenderArea);
     layout->addWidget(renderArea.get());
+    comboBox = std::unique_ptr<QComboBox>(new QComboBox());
+    configParser.loadConfig(comboBox.get());
+    layout->addWidget(comboBox.get());
     if(QWidget::layout() != 0)
     {
         delete(QWidget::layout());
@@ -90,6 +77,9 @@ void Solver::makeMove()
 
 void Solver::mousePressEvent(QMouseEvent *)
 {
+    images = configParser.getImages(comboBox->currentText());
+    MinesRecognizerHelper* helper_ = dynamic_cast<MinesRecognizerHelper*>(helper.get());
+    helper_->setImages(images);
     makeMove();
 }
 

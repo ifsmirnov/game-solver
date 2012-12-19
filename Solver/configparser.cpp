@@ -19,9 +19,9 @@ bool ConfigParser::checkFile(const std::string& path) const
     return false;
 }
 
-bool ConfigParser::checkPictures(const QDomElement& vesionNode) const
+bool ConfigParser::checkPictures(const QDomElement& versionNode) const
 {
-    QDomElement child = vesionNode.firstChildElement();
+    QDomElement child = versionNode.firstChildElement();
     int picturesFound = 0; //amount of pictures which were found, at the end it must equal to 11
     while(!child.isNull())
     {
@@ -35,7 +35,7 @@ bool ConfigParser::checkPictures(const QDomElement& vesionNode) const
         picturesFound++;
         child = child.nextSiblingElement();
     }
-    return true;
+    return picturesFound == 13;
 }
 
 void ConfigParser::loadConfig(QComboBox* comboBox)
@@ -50,18 +50,32 @@ void ConfigParser::loadConfig(QComboBox* comboBox)
         QDomNodeList childs = document.documentElement().elementsByTagName("versions");
         if(childs.length() == 1)
         {
-            QDomElement vesionNode = childs.item(0).firstChildElement();
-            bool fail = false;
-            while(!vesionNode.isNull())
+            QDomElement versionNode = childs.item(0).firstChildElement();
+            while(!versionNode.isNull())
             {
-                if(checkPictures(vesionNode))
+                if(checkPictures(versionNode))
                 {
-                    comboBox->addItem(vesionNode.tagName());
+                    comboBox->addItem(versionNode.tagName());
                 }
-                vesionNode = vesionNode.nextSiblingElement();
+                versionNode = versionNode.nextSiblingElement();
             }
         }
     }
 }
 
-
+std::vector<QImage> ConfigParser::getImages(QString gameTypeName) const
+{
+    std::vector<QImage> res;
+    QDomDocument document = QDomDocument();
+    QFile file("AppConfig.xml");
+    file.open(QIODevice::ReadOnly);
+    document.setContent(&file);
+    file.close();
+    QDomElement child = document.documentElement().elementsByTagName(gameTypeName).item(0).firstChildElement();
+    while(!child.isNull())
+    {
+        res.push_back(QImage(child.text()));
+        child = child.nextSiblingElement();
+    }
+    return res;
+}

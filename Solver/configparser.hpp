@@ -24,6 +24,7 @@ public:
     bool checkFile(const std::string&) const;
     bool checkPictures(const QDomElement&) const;
     void loadConfig(QComboBox*);
+    std::vector<QImage> getImages(QString) const;
 };
 
 
