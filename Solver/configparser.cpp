@@ -4,7 +4,7 @@
 
 ConfigParser::ConfigParser()
 {
-    QString names[13] = {"one", "two", "three", "four", "five", "six", "seven", "eight", "opened", "unopened", "blown", "flag", "mine"};
+    QString names[13] = {"unopened", "one", "two", "three", "four", "five", "six", "seven", "eight", "opened", "blown", "flag", "mine"};
     fieldNames.assign(names, names + 13);
 }
 

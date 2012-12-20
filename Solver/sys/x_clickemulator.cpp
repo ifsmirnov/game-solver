@@ -22,7 +22,10 @@ XClickEmulator* XClickEmulator::getInstance()
 
 void XClickEmulator::mouseClick(int x, int y, int button)
 {
-    clicker_->click(x, y, button);
+    if (button == Qt::LeftButton)
+        clicker_->click(x, y, 1); //left button
+    else
+        clicker_->click(x, y, 3); //right button
 }
 
 XClickEmulator::~XClickEmulator()

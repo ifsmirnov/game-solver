@@ -9,6 +9,7 @@
 #include <MinesImpl/clickcoordreciever.hpp>
 #include <MinesImpl/minescustomizer.hpp>
 #include <MinesImpl/minesrecognizerhelper.hpp>
+#include <gui/configdialog.hpp>
 
 Solver::Solver(QWidget *parent) :
     QWidget(parent)
@@ -29,15 +30,21 @@ Solver::Solver(AppFactory *factory_, SysEventsEmulator *emulator_, QWidget *pare
 void Solver::createLayout()
 {
     QGridLayout *layout = new QGridLayout;
-    renderArea = std::unique_ptr<RenderArea>(new RenderArea);
-    layout->addWidget(renderArea.get());
+
     comboBox = std::unique_ptr<QComboBox>(new QComboBox());
     configParser.loadConfig(comboBox.get());
     layout->addWidget(comboBox.get());
-    if(QWidget::layout() != 0)
-    {
-        delete(QWidget::layout());
-    }
+
+    startButton = std::unique_ptr<QPushButton>(new QPushButton("Solve!"));
+    connect(startButton.get(), SIGNAL(released()), this, SLOT(startReleased()));
+    layout->addWidget(startButton.get());
+
+    configButton = std::unique_ptr<QPushButton>(new QPushButton("Add version"));
+    connect(configButton.get(), SIGNAL(released()), this, SLOT(configReleased()));
+    layout->addWidget(configButton.get());
+
+    configDialog = std::unique_ptr<QDialog>(new ConfigDialog(this, &configParser));
+
     setLayout(layout);
 }
 
@@ -75,12 +82,17 @@ void Solver::makeMove()
 
 }
 
-void Solver::mousePressEvent(QMouseEvent *)
+void Solver::startReleased()
 {
     images = configParser.getImages(comboBox->currentText());
     MinesRecognizerHelper* helper_ = dynamic_cast<MinesRecognizerHelper*>(helper.get());
     helper_->setImages(images);
     makeMove();
+}
+
+void Solver::configReleased()
+{
+    configDialog->exec();
 }
 
 void Solver::closeEvent(QCloseEvent *event)

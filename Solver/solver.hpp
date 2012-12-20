@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QImage>
 #include <QComboBox>
+#include <QPushButton>
+#include <QDialog>
 #include <memory>
 #include "configparser.hpp"
 #include "app_headers/app_factory.hpp"
@@ -25,14 +27,17 @@ public:
     void setSysEventsEmulator(SysEventsEmulator *emulator_);
 
 private slots:
-    void makeMove();
+    void startReleased();
+    void configReleased();
 
 signals:
     void closed();
+    void released();
 
 private:
     QImage printScreen();
     void createLayout();
+    void makeMove();
 
 private:
     // TODO - change to std::unique_ptr; now memory leaks are possible
@@ -44,10 +49,12 @@ private:
 
     std::unique_ptr<RenderArea> renderArea;
 
+    std::unique_ptr<QPushButton> startButton;
+    std::unique_ptr<QPushButton> configButton;
     std::unique_ptr<QComboBox> comboBox;
+    std::unique_ptr<QDialog> configDialog;
     std::vector<QImage> images;
     ConfigParser configParser;
-    void mousePressEvent(QMouseEvent *);
     void closeEvent(QCloseEvent *);
 };
 
