@@ -1,14 +1,10 @@
 #include "minesinternalstate.hpp"
 
-MinesInternalState::MinesInternalState(int height, int width)
+MinesInternalState::MinesInternalState(int width, int height)
 {
-    field_.resize(height);
-    for(int i = 0; i < height; i++)
-    {
-        field_[i].resize(width, 0);
-    }
-    height_ = height;
+    field_.assign(width, std::vector<int>(height));
     width_ = width;
+    height_ = height;
 }
 
 

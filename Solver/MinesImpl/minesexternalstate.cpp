@@ -1,12 +1,8 @@
 #include "minesexternalstate.hpp"
 
-MinesExternalState::MinesExternalState(int height, int width)
+MinesExternalState::MinesExternalState(int width, int height)
 {
-    coordinates_.resize(height);
-    for(int i = 0; i < height; i++)
-    {
-        coordinates_[i].resize(width);
-    }
+    coordinates_.assign(width, std::vector<QPoint>(height));
 }
 
 

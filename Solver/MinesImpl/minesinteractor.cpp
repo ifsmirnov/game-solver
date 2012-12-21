@@ -19,7 +19,7 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
 
     QPoint emptyCell(-1, -1);
 
-    is_interactor::t_field field(internalState->getWidth(), std::vector<int>(internalState->getHeight()));
+    is_interactor::t_field field(internalState->getHeight(), std::vector<int>(internalState->getWidth()));
     for (int i = 0; i < internalState->getWidth(); ++i)
     {
         for (int j = 0; j < internalState->getHeight(); ++j)
@@ -27,18 +27,18 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
             int cell = internalState->getField(i, j);
             if (cell == unopened)
             {
-                field[i][j] = is_interactor::cUnopened;
+                field[j][i] = is_interactor::cUnopened;
                 if (emptyCell == QPoint(-1, -1))
                     emptyCell = QPoint(i, j);
             }
             else if (cell == flag)
-                field[i][j] = is_interactor::cMine;
+                field[j][i] = is_interactor::cMine;
             else if (cell == blown)
                 return new MinesAction;
             else if (cell >= 1 && cell <= 8)
-                field[i][j] = cell;
+                field[j][i] = cell;
             else
-                field[i][j] = is_interactor::cUnknown;
+                field[j][i] = is_interactor::cUnknown;
         }
     }
 
@@ -58,9 +58,9 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
     std::set<std::pair<int, int> > mines_ = moves.second.first, nomines_ = moves.second.second;
     std::vector<QPoint> mines, nomines;
     for (const auto i: mines_)
-        mines.push_back(QPoint(i.first, i.second));
+        mines.push_back(QPoint(i.second, i.first));
     for (const auto i: nomines_)
-        nomines.push_back(QPoint(i.first, i.second));
+        nomines.push_back(QPoint(i.second, i.first));
 
     if (mines.empty() && nomines.empty())
     {
@@ -76,10 +76,12 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
     for (auto i: mines)
     {
         action->addTurn(i, Qt::RightButton);
+        std::cerr << "mine " << i.x() << " " << i.y() << std::endl;
     }
     for (auto i: nomines)
     {
         action->addTurn(i, Qt::LeftButton);
+        std::cerr << "no mine " << i.x() << " " << i.y() << std::endl;
     }
 
     return action;

@@ -7,7 +7,7 @@
 class MinesExternalState : public AppExternalState
 {
 public:
-    MinesExternalState(int height, int width);
+    MinesExternalState(int width, int height);
 
     void setCoordinate(int x, int y, int coorX, int coorY);
 

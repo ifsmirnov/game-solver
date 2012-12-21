@@ -69,7 +69,7 @@ void Solver::makeMove()
 {
     while(true)
     {
-        usleep(10 * 1000);
+        usleep(100 * 1000);
         std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen(), helper.get());
         AppInternalState *internalState = recognizerResult->internalState();
         AppExternalState *externalState = recognizerResult->externalState();

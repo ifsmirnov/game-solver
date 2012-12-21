@@ -51,18 +51,18 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(const QImage &image, AppRec
     std::vector<QImage> samples = helper->getImages();
     MinesInternalState* internalState = new MinesInternalState(w, h);
     MinesExternalState* externalState = new MinesExternalState(w, h);
-    for (int j = 0; j < h; j++)
+    for (int i = 0; i < w; i++)
     {
-        for (int i = 0; i < w; i++)
+        for (int j = 0; j < h; j++)
         {
             QImage img = image.copy(pos.first.x() - pos.second/2 + pos.second * i,
                                     pos.first.y() - pos.second/2 + pos.second * j,
                                     pos.second, pos.second);
-            int cell = cachedCells[j][i];
+            int cell = cachedCells[i][j];
             if (cell == unopened)
             {
                 cell = bestVariant(img, samples);
-                cachedCells[j][i] = cell;
+                cachedCells[i][j] = cell;
             }
             internalState->setField(i, j, cell);
             externalState->setCoordinate(i, j, pos.first.x() + pos.second * i, pos.first.y() + pos.second * j);

@@ -6,7 +6,7 @@
 class MinesInternalState: public AppInternalState
 {
 public:
-    MinesInternalState(int height, int width);
+    MinesInternalState(int width, int height);
 
     void setField(int x, int y, int data);
 

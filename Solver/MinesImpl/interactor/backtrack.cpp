@@ -158,7 +158,7 @@ std :: pair<int, int> getFreeNearby(const t_field& field, t_coord x, t_coord y)
 	for (auto i: field)
 		m_assert(i.size() == m, two field lines have unequal length);
 	
-	m_assert(x < n && y < m, coordinates are out of bound);
+    m_assert(x < n && y < m, coordinates are out of bound);
 	
 	int cntMines = 0, 
 		cntUnopened = 0;
