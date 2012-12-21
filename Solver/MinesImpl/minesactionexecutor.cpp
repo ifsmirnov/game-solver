@@ -18,7 +18,7 @@ void MinesActionExecutor::execute(const AppExternalState *extState_,
         {
             mouseTarget = extState->getCoordinate(turns[i].first.x(), turns[i].first.y());
             emulator->mouseClick(mouseTarget.x(), mouseTarget.y(), turns[i].second);
-            usleep(100 * 1000);
+            usleep(10 * 1000);
         }
     }
     else
