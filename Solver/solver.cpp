@@ -111,6 +111,8 @@ void Solver::startReleased()
     }
     images = configParser.getImages(comboBox->currentText());
     MinesRecognizerHelper* helper_ = dynamic_cast<MinesRecognizerHelper*>(helper.get());
+    helper_->setWidth(width);
+    helper_->setHeight(height);
     helper_->setImages(images);
     makeMove();
 }
