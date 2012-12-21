@@ -64,6 +64,9 @@ void ConfigDialog::clicked(int x)
         boxText = versionName->text();
         if (boxText.isNull()  ||  boxText.isEmpty()  ||  boxText == "Type name of version here (no spaces)"  ||  boxText.contains(" "))
         {
+            QMessageBox qmBox;
+            qmBox.setText("Error in version name");
+            qmBox.exec();
             fail = true;
         }
         if(!fail)
