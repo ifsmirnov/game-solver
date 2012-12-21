@@ -53,8 +53,12 @@ private:
     std::unique_ptr<QPushButton> configButton;
     std::unique_ptr<QComboBox> comboBox;
     std::unique_ptr<QDialog> configDialog;
+    QLineEdit* fieldWidth;
+    QLineEdit* fieldHeight;
     std::vector<QImage> images;
     ConfigParser configParser;
+    static int MAX_WIDTH;
+    static int MAX_HEIGHT;
     void closeEvent(QCloseEvent *);
 };
 

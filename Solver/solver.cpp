@@ -11,6 +11,9 @@
 #include <MinesImpl/minesrecognizerhelper.hpp>
 #include <gui/configdialog.hpp>
 
+int Solver::MAX_WIDTH = 90;
+int Solver::MAX_HEIGHT = 90;
+
 Solver::Solver(QWidget *parent) :
     QWidget(parent)
 {
@@ -34,6 +37,11 @@ void Solver::createLayout()
     comboBox = std::unique_ptr<QComboBox>(new QComboBox());
     configParser.loadConfig(comboBox.get());
     layout->addWidget(comboBox.get());
+
+    fieldWidth = new QLineEdit("width");
+    fieldHeight = new QLineEdit("height");
+    layout->addWidget(fieldWidth);
+    layout->addWidget(fieldHeight);
 
     startButton = std::unique_ptr<QPushButton>(new QPushButton("Solve!"));
     connect(startButton.get(), SIGNAL(released()), this, SLOT(startReleased()));
@@ -85,6 +93,22 @@ void Solver::makeMove()
 
 void Solver::startReleased()
 {
+    QMessageBox qmBox;
+    bool result = true;
+    int width = fieldWidth->text().toInt(&result);
+    if (!result  ||  width <= 0  ||  width >= MAX_WIDTH)
+    {
+        qmBox.setText("Incorrect width");
+        qmBox.exec();
+        return;
+    }
+    int height = fieldHeight->text().toInt(&result);
+    if (!result  ||  height <= 0  ||  width >= MAX_HEIGHT)
+    {
+        qmBox.setText("Incorrect height");
+        qmBox.exec();
+        return;
+    }
     images = configParser.getImages(comboBox->currentText());
     MinesRecognizerHelper* helper_ = dynamic_cast<MinesRecognizerHelper*>(helper.get());
     helper_->setImages(images);
