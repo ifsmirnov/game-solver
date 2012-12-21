@@ -40,8 +40,10 @@ void Solver::createLayout()
 
     fieldWidth = new QLineEdit("width");
     fieldHeight = new QLineEdit("height");
+    warmUpEdit = new QLineEdit("Warming up turns num");
     layout->addWidget(fieldWidth);
     layout->addWidget(fieldHeight);
+    layout->addWidget(warmUpEdit);
 
     startButton = std::unique_ptr<QPushButton>(new QPushButton("Solve!"));
     connect(startButton.get(), SIGNAL(released()), this, SLOT(startReleased()));
@@ -79,6 +81,7 @@ void Solver::makeMove()
     {
         usleep(100 * 1000);
         std::unique_ptr<AppState> recognizerResult = recognizer->recognize(printScreen(), helper.get());
+        (dynamic_cast<MinesRecognizerHelper*>(helper.get()))->setFirstMove(false);
         AppInternalState *internalState = recognizerResult->internalState();
         AppExternalState *externalState = recognizerResult->externalState();
         std::unique_ptr<AppAction> action(interactor->nextAction(internalState));
@@ -103,9 +106,16 @@ void Solver::startReleased()
         return;
     }
     int height = fieldHeight->text().toInt(&result);
-    if (!result  ||  height <= 0  ||  width >= MAX_HEIGHT)
+    if (!result  ||  height <= 0  ||  height >= MAX_HEIGHT)
     {
         qmBox.setText("Incorrect height");
+        qmBox.exec();
+        return;
+    }
+    int warmUpTurns = warmUpEdit->text().toInt(&result);
+    if (!result  ||  warmUpTurns < 0  ||  warmUpTurns > width * height)
+    {
+        qmBox.setText("Incorrect warm up");
         qmBox.exec();
         return;
     }
@@ -114,6 +124,8 @@ void Solver::startReleased()
     helper_->setWidth(width);
     helper_->setHeight(height);
     helper_->setImages(images);
+    helper_->setWarmUpTurns(warmUpTurns);
+    helper_->setFirstMove(true);
     makeMove();
 }
 

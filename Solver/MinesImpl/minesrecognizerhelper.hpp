@@ -9,6 +9,8 @@ class MinesRecognizerHelper : public AppRecognizerHelper
 private:
     std::vector<QImage> images_;
     int width_, height_;
+    bool firstMove_;
+    int warmUpTurns_;
 public:
     MinesRecognizerHelper();
 
@@ -20,6 +22,12 @@ public:
 
     int getHeight() const;
     void setHeight(int);
+
+    bool isFirstMove() const;
+    void setFirstMove(bool);
+
+    int getWarmUpTurns() const;
+    void setWarmUpTurns(int);
 };
 
 #endif // MINESRECOGNIZERHELPER_HPP

@@ -55,6 +55,7 @@ private:
     std::unique_ptr<QDialog> configDialog;
     QLineEdit* fieldWidth;
     QLineEdit* fieldHeight;
+    QLineEdit* warmUpEdit;
     std::vector<QImage> images;
     ConfigParser configParser;
     static int MAX_WIDTH;

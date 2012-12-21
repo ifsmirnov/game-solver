@@ -35,3 +35,23 @@ void MinesRecognizerHelper::setHeight(int height)
     height_ = height;
 }
 
+bool MinesRecognizerHelper::isFirstMove() const
+{
+    return firstMove_;
+}
+
+void MinesRecognizerHelper::setFirstMove(bool firstMove)
+{
+    firstMove_ = firstMove;
+}
+
+int MinesRecognizerHelper::getWarmUpTurns() const
+{
+    return warmUpTurns_;
+}
+
+void MinesRecognizerHelper::setWarmUpTurns(int warmUpTurns)
+{
+    warmUpTurns_ = warmUpTurns;
+}
+
