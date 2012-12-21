@@ -25,7 +25,6 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
         for (int j = 0; j < internalState->getHeight(); ++j)
         {
             int cell = internalState->getField(i, j);
-            std::cerr << cell << " ";
             if (cell == unopened)
             {
                 field[i][j] = is_interactor::cUnopened;
@@ -41,7 +40,12 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
             else
                 field[i][j] = is_interactor::cUnknown;
         }
-        std::cerr << std::endl << std::flush;
+    }
+
+    if (emptyCell == QPoint(-1, -1))
+    {
+        std::cerr << "Won" << std::endl;
+        return new MinesAction;
     }
 
     auto moves = is_interactor::determine(field, 1);
@@ -71,12 +75,10 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
     MinesAction *action = new MinesAction;
     for (auto i: mines)
     {
-        std::cerr << "mine " << i.x() << " " << i.y() << std::endl;
         action->addTurn(i, Qt::RightButton);
     }
     for (auto i: nomines)
     {
-        std::cerr << "no mine " << i.x() << " " << i.y() << std::endl;
         action->addTurn(i, Qt::LeftButton);
     }
 

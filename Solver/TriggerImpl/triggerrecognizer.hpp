@@ -15,7 +15,7 @@ class TriggerRecognizer : public AppRecognizer
 public:
     TriggerRecognizer();
 
-    std::unique_ptr<AppState> recognize(QImage, AppRecognizerHelper*);
+    std::unique_ptr<AppState> recognize(const QImage&, AppRecognizerHelper*);
 
 private:
     std::vector<std::vector<QRgb> > getPixmap(); // maybe not const?

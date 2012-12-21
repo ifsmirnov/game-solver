@@ -14,7 +14,7 @@ class MinesRecognizer : public AppRecognizer
 {
 public:
     MinesRecognizer();
-    std::unique_ptr<AppState> recognize(QImage, AppRecognizerHelper*);
+    std::unique_ptr<AppState> recognize(const QImage&, AppRecognizerHelper*);
 
     // TODO: make this all private after testing
     int getNearestCluster(int, int) const;
@@ -33,6 +33,9 @@ public:
     bool posFound;
 public:
     std::pair<QPoint, int> bestGridPosition(std::vector<QPoint> pts, int fieldW, int fieldH);
+
+private:
+    std::vector<std::vector<int> > cachedCells;
 };
 
 #endif // MINERRECOGNIZER_HPP

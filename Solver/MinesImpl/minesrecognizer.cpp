@@ -25,11 +25,17 @@ int MinesRecognizer::getNearestCluster(int color, int clusterModule) const{
     }
 }
 
-std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizerHelper* helper_)
+std::unique_ptr<AppState> MinesRecognizer::recognize(const QImage &image, AppRecognizerHelper* helper_)
 {
     MinesRecognizerHelper *helper = dynamic_cast<MinesRecognizerHelper*>(helper_);
 
     int w = 16, h = 16;
+
+    if (cachedCells.empty())
+        cachedCells.assign(w, std::vector<int>(h, 9));
+    const static int unopened = 9;
+    const static char* display = " 12345678.x+*";
+
     if(!posFound)
     {
         std::vector<QPoint> clicks = getUserClicks(image);
@@ -52,11 +58,20 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizer
             QImage img = image.copy(pos.first.x() - pos.second/2 + pos.second * i,
                                     pos.first.y() - pos.second/2 + pos.second * j,
                                     pos.second, pos.second);
-            internalState->setField(i, j, bestVariant(img, samples));
+            int cell = cachedCells[j][i];
+            if (cell == unopened)
+            {
+                cell = bestVariant(img, samples);
+                cachedCells[j][i] = cell;
+            }
+            internalState->setField(i, j, cell);
             externalState->setCoordinate(i, j, pos.first.x() + pos.second * i, pos.first.y() + pos.second * j);
+
+            std::cerr << display[cell] << std::flush;
         }
+        std::cerr << std::endl << std::flush;
     }
-    std::cerr << "Recognizer: recognized" << std::endl;
+    std::cerr << "Recognizer: recognized" << std::endl << std::flush;
     return std::unique_ptr<AppState>(new AppState(internalState, externalState));
 }
 
@@ -124,7 +139,6 @@ int MinesRecognizer::bestVariant(const QImage& image, const std::vector<QImage>&
     for (size_t i = 0; i < variants.size(); i++)
     {
         double temp = getDiffInColors(colors, getColorPartition(variants[i]));
-        //std::cout << diff << ' ' << temp << std::endl;
         if (temp < diff)
         {
             diff = temp;
