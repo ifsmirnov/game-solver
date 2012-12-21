@@ -15,6 +15,7 @@ public:
     void setTurnsNum(int newNum);
 
     void setTurn(int index, QPoint turn, int button);
+    void addTurn(QPoint turn, int button);
 
     std::vector<std::pair<QPoint, int> > getTurns() const;
 

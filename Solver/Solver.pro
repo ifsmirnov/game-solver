@@ -33,7 +33,11 @@ HEADERS += \
     MinesImpl/minesfactory.hpp \
     app_headers/app_recognizer_helper.hpp \
     MinesImpl/minesrecognizerhelper.hpp \
-    gui/configdialog.hpp
+    gui/configdialog.hpp \
+    MinesImpl/interactor/backtrack.h \
+    MinesImpl/interactor/const.h \
+    MinesImpl/interactor/common_utils.h
+
 
 SOURCES += \
     solver.cpp \
@@ -61,7 +65,9 @@ SOURCES += \
     MinesImpl/minescustomizer.cpp \
     MinesImpl/minesfactory.cpp \
     MinesImpl/minesrecognizerhelper.cpp \
-    gui/configdialog.cpp
+    gui/configdialog.cpp \
+    MinesImpl/interactor/backtrack.cpp \
+    MinesImpl/interactor/common_utils.cpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 QMAKE_LIBS += -lxdo -lX11
