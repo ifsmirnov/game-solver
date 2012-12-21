@@ -84,7 +84,13 @@ void Solver::makeMove()
 
 void Solver::startReleased()
 {
-    images = configParser.getImages(comboBox->currentText());
+    //images = configParser.getImages(comboBox->currentText());
+    std::string names[13] = {"opened", "1", "2", "3", "4", "5", "6", "7", "8", "unopened", "blown", "flag", "mine"};
+    images.clear();
+    for (int i = 0; i < 13; ++i)
+    {
+        images.push_back(QImage((std::string("img/") + names[i]).c_str()));
+    }
     MinesRecognizerHelper* helper_ = dynamic_cast<MinesRecognizerHelper*>(helper.get());
     helper_->setImages(images);
     makeMove();

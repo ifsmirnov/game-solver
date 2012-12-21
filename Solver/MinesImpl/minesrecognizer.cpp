@@ -34,6 +34,7 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizer
     {
         std::vector<QPoint> clicks = getUserClicks(image);
         pos = bestGridPosition(clicks, w, h);
+        //pos = std::make_pair(QPoint(385, 106), 40); // default for fullscreen on IS laptop
         posFound = true;
     }
     /*RenderArea *ra = new RenderArea;
@@ -41,9 +42,7 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizer
                             pos.first.y() - pos.second / 2,
                             pos.second * w, pos.second * h));
     ra->show();*/
-    const char* names[] = {"opened", "1", "2", "3", "4", "5", "6", "7", "8", "unopened", "blown", };
     std::vector<QImage> samples = helper->getImages();
-    std::cerr << samples.size() << std::endl;
     MinesInternalState* internalState = new MinesInternalState(w, h);
     MinesExternalState* externalState = new MinesExternalState(w, h);
     for (int j = 0; j < h; j++)
@@ -54,11 +53,10 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizer
                                     pos.first.y() - pos.second/2 + pos.second * j,
                                     pos.second, pos.second);
             internalState->setField(i, j, bestVariant(img, samples));
-            std::cout << bestVariant(img, samples) << ' ';
             externalState->setCoordinate(i, j, pos.first.x() + pos.second * i, pos.first.y() + pos.second * j);
         }
-        std::cout << std::endl;
     }
+    std::cerr << "Recognizer: recognized" << std::endl;
     return std::unique_ptr<AppState>(new AppState(internalState, externalState));
 }
 
