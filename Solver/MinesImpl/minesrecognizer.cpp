@@ -29,11 +29,13 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(const QImage &image, AppRec
 {
     MinesRecognizerHelper *helper = dynamic_cast<MinesRecognizerHelper*>(helper_);
 
-    int w = 16, h = 16;
+    int w = helper->getWidth(), h = helper->getHeight();
 
     if (cachedCells.empty())
+    {
         cachedCells.assign(w, std::vector<int>(h, 9));
-    const static int unopened = 9;
+        cellHash.assign(w, std::vector<int>(w, 0));
+    }
     const static char* display = " 12345678.x+*";
 
     if(!posFound)
@@ -58,11 +60,13 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(const QImage &image, AppRec
             QImage img = image.copy(pos.first.x() - pos.second/2 + pos.second * i,
                                     pos.first.y() - pos.second/2 + pos.second * j,
                                     pos.second, pos.second);
+            int curHash = imageHash(img);
             int cell = cachedCells[i][j];
-            if (cell == unopened)
+            if (cellHash[i][j] != curHash)
             {
                 cell = bestVariant(img, samples);
                 cachedCells[i][j] = cell;
+                cellHash[i][j] = curHash;
             }
             internalState->setField(i, j, cell);
             externalState->setCoordinate(i, j, pos.first.x() + pos.second * i, pos.first.y() + pos.second * j);
@@ -218,4 +222,17 @@ std::pair<QPoint, int> MinesRecognizer::bestGridPosition(std::vector<QPoint> pts
         }
     }
     return res;
+}
+
+int MinesRecognizer::imageHash(const QImage &image) const
+{
+    int hash = 0;
+    for (int i = 0; i < image.width(); ++i)
+    {
+        for (int j = 0; j < image.height(); ++j)
+        {
+            hash = hash * 10099 + image.pixel(i, j);
+        }
+    }
+    return hash;
 }

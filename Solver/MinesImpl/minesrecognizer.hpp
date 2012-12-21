@@ -34,8 +34,11 @@ public:
 public:
     std::pair<QPoint, int> bestGridPosition(std::vector<QPoint> pts, int fieldW, int fieldH);
 
+    int imageHash(const QImage&) const;
+
 private:
     std::vector<std::vector<int> > cachedCells;
+    std::vector<std::vector<int> > cellHash;
 };
 
 #endif // MINERRECOGNIZER_HPP
