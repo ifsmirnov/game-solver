@@ -41,7 +41,7 @@ std::unique_ptr<AppState> MinesRecognizer::recognize(QImage image, AppRecognizer
                             pos.first.y() - pos.second / 2,
                             pos.second * w, pos.second * h));
     ra->show();*/
-    const char* names[] = {"opened", "1", "2", "3", "4", "5", "6", "7", "8", "unopened", "blown", };
+    //const char* names[] = {"opened", "1", "2", "3", "4", "5", "6", "7", "8", "unopened", "blown", };
     std::vector<QImage> samples = helper->getImages();
     std::cerr << samples.size() << std::endl;
     MinesInternalState* internalState = new MinesInternalState(w, h);

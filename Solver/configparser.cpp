@@ -4,7 +4,7 @@
 
 ConfigParser::ConfigParser()
 {
-    QString names[13] = {"unopened", "one", "two", "three", "four", "five", "six", "seven", "eight", "opened", "blown", "flag", "mine"};
+    QString names[13] = {"opened", "one", "two", "three", "four", "five", "six", "seven", "eight", "unopened", "blown", "flag", "mine"};
     fieldNames.assign(names, names + 13);
 }
 
@@ -42,6 +42,7 @@ void ConfigParser::loadConfig(QComboBox* comboBox)
 {
     if(checkFile("AppConfig.xml"))
     {
+        comboBox->clear();
         QDomDocument document = QDomDocument();
         QFile file("AppConfig.xml");
         file.open(QIODevice::ReadOnly);

@@ -9,7 +9,10 @@
 #include <QFileDialog>
 #include <QSignalMapper>
 #include <memory>
+#include <QMessageBox>
 #include "configparser.hpp"
+#include <QDomElement>
+#include <QTextStream>
 
 class ConfigDialog : public QDialog
 {
@@ -18,7 +21,7 @@ public:
     explicit ConfigDialog(QWidget *parent, ConfigParser* newParser);
     void createLayout();
 signals:
-    void released();
+    void clicked();
 private slots:
     void clicked(int x);
 private:
@@ -34,6 +37,8 @@ private:
 
     ConfigParser* configParser;
     std::vector<OpenFileTool> tools;
+    std::vector<QString> names;
+    QLineEdit* versionName;
 };
 
 #endif // CONFIGDIALOG_HPP

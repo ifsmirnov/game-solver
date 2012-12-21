@@ -92,7 +92,9 @@ void Solver::startReleased()
 
 void Solver::configReleased()
 {
+    configDialog->setFixedSize(350, 700);
     configDialog->exec();
+    configParser.loadConfig(comboBox.get());
 }
 
 void Solver::closeEvent(QCloseEvent *event)
