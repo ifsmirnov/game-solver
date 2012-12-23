@@ -19,12 +19,15 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
 
     QPoint emptyCell(-1, -1);
 
+    bool allEmpty = true;
+
     is_interactor::t_field field(internalState->getHeight(), std::vector<int>(internalState->getWidth()));
     for (int i = 0; i < internalState->getWidth(); ++i)
     {
         for (int j = 0; j < internalState->getHeight(); ++j)
         {
             int cell = internalState->getField(i, j);
+            allEmpty &= (cell == unopened);
             if (cell == unopened)
             {
                 field[j][i] = is_interactor::cUnopened;
@@ -40,6 +43,17 @@ AppAction* MinesInteractor::nextAction(AppInternalState *internalState_)
             else
                 field[j][i] = is_interactor::cUnknown;
         }
+    }
+
+    if (allEmpty)
+    {
+        srand(time(nullptr));
+        MinesAction *action = new MinesAction;
+        for (int i = 0; i < 5; ++i)
+        {
+            action->addTurn(QPoint(rand()%internalState->getWidth(), rand()%internalState->getHeight()), Qt::LeftButton);
+        }
+        return action;
     }
 
     if (emptyCell == QPoint(-1, -1))
